@@ -9,6 +9,7 @@ import sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
+import holidays
 import mysql.connector
 import numpy as np
 import pandas as pd
@@ -17,6 +18,12 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODEL_DIR = PROJECT_ROOT / "storage" / "app" / "ml"
 
 WEATHER_COLS = ["temperature", "humidity", "rainfall"]
+# Weather conditions from mildest to most severe; OpenWeather's other "main" values map onto these
+CONDITION_ORDER = ["Clear", "Clouds", "Drizzle", "Rain", "Thunderstorm"]
+CONDITION_ALIASES = {"Mist": "Clouds", "Fog": "Clouds", "Haze": "Clouds", "Smoke": "Clouds", "Dust": "Clouds",
+                     "Sand": "Clouds", "Ash": "Clouds", "Snow": "Rain", "Squall": "Thunderstorm",
+                     "Tornado": "Thunderstorm"}
+LOCAL_HOLIDAYS = [(3, 16)]  # Araw ng Dabaw, on top of the national holidays
 
 
 def _load_dotenv():
@@ -72,9 +79,9 @@ def to_local_date(series):
 
 
 def load_weather(conn):
-    df = query_df(conn, "SELECT date, temperature, humidity, rainfall, is_forecast FROM weather_data ORDER BY date")
+    df = query_df(conn, "SELECT date, temperature, humidity, rainfall, `condition`, is_forecast FROM weather_data ORDER BY date")
     if df.empty:
-        return pd.DataFrame(columns=WEATHER_COLS + ["is_forecast"], index=pd.DatetimeIndex([], name="date"))
+        return pd.DataFrame(columns=WEATHER_COLS + ["condition", "is_forecast"], index=pd.DatetimeIndex([], name="date"))
     df["date"] = pd.to_datetime(df["date"])
     return df.set_index("date")
 
@@ -98,6 +105,24 @@ def weather_for(weather, dates):
         out[col] = out[col].fillna(weather[col].mean())
 
     return out.reindex(idx)
+
+
+def conditions_for(weather, dates):
+    """Daily weather condition for `dates`, one of CONDITION_ORDER; gaps get the most common condition."""
+    idx = pd.DatetimeIndex(dates)
+    cond = weather["condition"].map(lambda c: CONDITION_ALIASES.get(c, c))
+    cond = cond.where(cond.isin(CONDITION_ORDER))
+    fallback = cond.mode().iloc[0] if cond.notna().any() else "Clouds"
+    return cond.reindex(idx).fillna(fallback)
+
+
+def holiday_flags(dates):
+    """1.0 on Philippine national holidays and Araw ng Dabaw, else 0.0."""
+    idx = pd.DatetimeIndex(dates)
+    years = sorted(set(idx.year))
+    days = set(pd.to_datetime(list(holidays.PH(years=years).keys())))
+    days |= {pd.Timestamp(y, m, d) for y in years for m, d in LOCAL_HOLIDAYS}
+    return pd.Series(idx.isin(list(days)).astype(float), index=idx)
 
 
 def save_run(conn, model, status, training_rows=0, metrics=None, message=None):

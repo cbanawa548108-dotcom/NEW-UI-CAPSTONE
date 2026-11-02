@@ -187,6 +187,7 @@ class ForecastController extends Controller
             'value_at_risk' => round($r->quantity * $r->price_per_unit * $r->risk_score / 100, 2),
             'expiry_date' => $r->expiry_date,
             'stock_age_days' => (float) $r->stock_age_days,
+            'remaining_shelf_life_days' => $this->floatOrNull($r->remaining_shelf_life_days),
             'turnover_rate' => (float) $r->turnover_rate,
             'sales_trend' => (float) $r->sales_trend,
             'temperature' => $this->floatOrNull($r->temperature),

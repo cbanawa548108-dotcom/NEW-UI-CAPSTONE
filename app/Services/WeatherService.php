@@ -233,6 +233,7 @@ class WeatherService
             $code === 0 => 'Clear',
             $code <= 3 => 'Clouds',
             $code <= 48 => 'Fog',
+            $code >= 51 && $code <= 57 => 'Drizzle',
             $code <= 67, $code >= 80 && $code <= 82 => 'Rain',
             $code >= 95 => 'Thunderstorm',
             default => 'Rain',

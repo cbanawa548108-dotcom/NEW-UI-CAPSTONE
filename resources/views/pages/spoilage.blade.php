@@ -119,7 +119,11 @@
             <div class="progress-bar mb-3">
                 <div class="h-full rounded-full transition-all" :class="tone(b.risk_score).bar" :style="'width:' + b.risk_score + '%'"></div>
             </div>
-            <p class="text-[11.5px] text-gray-500 mb-3" x-text="b.quantity + ' ' + b.unit + ' on hand · ' + b.stock_age_days + ' days old · expires ' + b.expiry_date"></p>
+            <p class="text-[11.5px] text-gray-500 mb-1" x-text="b.quantity + ' ' + b.unit + ' on hand · ' + b.stock_age_days + ' days old · expires ' + b.expiry_date"></p>
+            <p class="text-[12px] font-semibold mb-3" x-show="b.remaining_shelf_life_days !== null"
+               :class="b.remaining_shelf_life_days <= 1 ? 'text-red-600' : 'text-gray-700'"
+               title="Shelf life minus temperature-adjusted age: hot days count as more than one day"
+               x-text="b.remaining_shelf_life_days > 0 ? '≈ ' + b.remaining_shelf_life_days + ' days of shelf life left' : 'Past its shelf life'"></p>
             <div class="bg-gray-50 rounded-xl p-3 border border-gray-100 flex items-center gap-2">
                 <svg class="w-4 h-4 text-violet-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                 <p class="text-[12px] font-semibold text-gray-700" x-text="b.recommendation"></p>

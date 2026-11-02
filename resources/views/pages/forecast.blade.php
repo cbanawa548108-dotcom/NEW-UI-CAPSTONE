@@ -179,12 +179,12 @@
 <div class="card overflow-hidden fade-up delay-4" x-show="modelRows.length">
     <div class="px-6 py-4 border-b border-gray-100">
         <h3 class="font-bold text-gray-900 text-[15px]">SARIMAX Model Details</h3>
-        <p class="text-[12px] text-gray-400 mt-0.5">Order chosen by AIC per fruit. Weather coefficients are per 1 standard deviation; p &lt; 0.05 means the effect is statistically significant.</p>
+        <p class="text-[12px] text-gray-400 mt-0.5">Order chosen by AIC per fruit. Coefficients are kg/day per 1 standard deviation of each input; weather conditions are compared with the reference condition shown. p &lt; 0.05 means the effect is statistically significant.</p>
     </div>
     <div class="overflow-x-auto">
         <table class="tbl w-full">
             <thead><tr>
-                <th class="text-left">Fruit</th><th class="text-left">Order (p,d,q)(P,D,Q,s)</th><th class="text-left">MAE</th><th class="text-left">RMSE</th><th class="text-left">Temperature</th><th class="text-left">Humidity</th><th class="text-left">Rainfall</th>
+                <th class="text-left">Fruit</th><th class="text-left">Order (p,d,q)(P,D,Q,s)</th><th class="text-left">MAE</th><th class="text-left">RMSE</th><th class="text-left">Temperature</th><th class="text-left">Humidity</th><th class="text-left">Rainfall</th><th class="text-left">Holiday</th><th class="text-left">Condition</th>
             </tr></thead>
             <tbody>
             <template x-for="m in modelRows" :key="m.fruit">
@@ -193,12 +193,21 @@
                     <td class="text-[12.5px] text-gray-600 font-mono" x-text="'(' + m.order.join(',') + ')(' + m.seasonal_order.join(',') + ')'"></td>
                     <td class="text-[12.5px] text-gray-600" x-text="m.mae + ' kg'"></td>
                     <td class="text-[12.5px] text-gray-600" x-text="m.rmse + ' kg'"></td>
-                    <template x-for="w in ['temperature','humidity','rainfall']" :key="w">
-                        <td class="text-[12.5px]" :class="m.weather_pvalues[w] < 0.05 ? 'font-bold text-gray-900' : 'text-gray-400'">
-                            <span x-text="(m.weather_coefficients[w] >= 0 ? '+' : '') + m.weather_coefficients[w]"></span>
-                            <span class="text-[10.5px]" x-text="'p=' + m.weather_pvalues[w]"></span>
+                    <template x-for="w in ['temperature','humidity','rainfall','is_holiday']" :key="w">
+                        <td class="text-[12.5px]" :class="m.exog_pvalues[w] < 0.05 ? 'font-bold text-gray-900' : 'text-gray-400'">
+                            <span x-text="(m.exog_coefficients[w] >= 0 ? '+' : '') + m.exog_coefficients[w]"></span>
+                            <span class="text-[10.5px]" x-text="'p=' + m.exog_pvalues[w]"></span>
                         </td>
                     </template>
+                    <td class="text-[12.5px] whitespace-nowrap">
+                        <div class="text-[10.5px] text-gray-400" x-text="'vs ' + m.condition_reference"></div>
+                        <template x-for="c in Object.keys(m.exog_coefficients).filter(k => k.startsWith('cond_'))" :key="c">
+                            <div :class="m.exog_pvalues[c] < 0.05 ? 'font-bold text-gray-900' : 'text-gray-400'">
+                                <span x-text="c.slice(5).charAt(0).toUpperCase() + c.slice(6) + ' ' + (m.exog_coefficients[c] >= 0 ? '+' : '') + m.exog_coefficients[c]"></span>
+                                <span class="text-[10.5px]" x-text="'p=' + m.exog_pvalues[c]"></span>
+                            </div>
+                        </template>
+                    </td>
                 </tr>
             </template>
             </tbody>

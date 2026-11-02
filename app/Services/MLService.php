@@ -17,7 +17,9 @@ class MLService
      */
     public function runSalesForecast(int $horizon = 7, bool $refit = false): array
     {
-        return $this->run('sales_forecast.py', array_merge(['--horizon', (string) $horizon], $refit ? ['--refit'] : []));
+        // A refit on a low-memory machine fits one fruit at a time and can take well over the usual timeout
+        return $this->run('sales_forecast.py', array_merge(['--horizon', (string) $horizon], $refit ? ['--refit'] : []),
+            $refit ? max(3600, (int) config('services.ml.timeout')) : null);
     }
 
     public function runSpoilagePrediction(int $horizon = 7): array
@@ -25,12 +27,12 @@ class MLService
         return $this->run('spoilage_model.py', ['--horizon', (string) $horizon]);
     }
 
-    private function run(string $script, array $args = []): array
+    private function run(string $script, array $args = [], ?int $timeout = null): array
     {
         $db = config('database.connections.' . config('database.default'));
 
         $result = Process::path(base_path())
-            ->timeout((int) config('services.ml.timeout'))
+            ->timeout($timeout ?? (int) config('services.ml.timeout'))
             ->env([
                 'DB_HOST' => $db['host'],
                 'DB_PORT' => (string) $db['port'],

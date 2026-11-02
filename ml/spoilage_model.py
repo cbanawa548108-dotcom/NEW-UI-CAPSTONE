@@ -166,6 +166,27 @@ def typical_shelf_life(batches):
     return life.groupby(batches["fruit"]).median().fillna(7).to_dict()
 
 
+def batch_shelf_life(batch, shelf_lives):
+    """Days from receipt to expiry; else the fruit's typical batch life; else DEFAULT_SHELF_LIFE_DAYS."""
+    life = ((batch["expiry_date"] - batch["received_date"]).days if pd.notna(batch["expiry_date"])
+            else shelf_lives.get(batch["fruit"], DEFAULT_SHELF_LIFE_DAYS))
+    return max(life, 1)
+
+
+def temperature_reference(weather, today):
+    """Past year's mean observed temperature: a day at this temperature ages fruit by exactly one day."""
+    observed = weather[~weather["is_forecast"].astype(bool)] if not weather.empty else weather
+    recent = observed[observed.index >= today - pd.Timedelta(days=365)]
+    return float(recent["temperature"].astype(float).mean()) if len(recent) else REFERENCE_TEMP_C
+
+
+def effective_age(weather, received, end, t_ref):
+    """Temperature-adjusted days elapsed before each day starts (0 on the day received), up to `end`.
+    Each day counts as Q10 ** ((T - t_ref) / 10) days, so hot days age fruit faster."""
+    temps = weather_for(weather, pd.date_range(received, end, freq="D"))["temperature"].astype(float)
+    return (Q10 ** ((temps - t_ref) / 10)).cumsum().shift(1, fill_value=0.0)
+
+
 def encode(df, fruit_columns=None):
     dummies = pd.get_dummies(df["fruit"], prefix="fruit", dtype=float)
     if fruit_columns is not None:
@@ -239,23 +260,26 @@ def predict_open_batches(model, fruit_cols, batches, moves, weather, today, hori
     stats = item_sales_stats(moves, batches["received_date"].min() - pd.Timedelta(days=28), today)
     w = weather_3day(weather, dates)
     shelf_lives = typical_shelf_life(batches)
+    t_ref = temperature_reference(weather, today)
 
     rows, meta = [], []
     for _, b in open_b.iterrows():
         current = feature_row(b, today, b["quantity"], shelf_lives.get(b["fruit"], 7), stats)
+        # Shown to the user only, not a model feature
+        remaining_life = batch_shelf_life(b, shelf_lives) - effective_age(weather, b["received_date"], dates[-1], t_ref)
         for h, day in enumerate(dates):
             row = dict(current)
             row["stock_age_days"] = current["stock_age_days"] + h
             row["days_to_expiry"] = current["days_to_expiry"] - h
             row.update(w.loc[day, WEATHER_COLS].to_dict())
             rows.append(row)
-            meta.append((b, h, day, row))
+            meta.append((b, h, day, row, round(float(remaining_life[day]), 1)))
 
     X, _ = encode(pd.DataFrame(rows), fruit_cols)
     scores = np.clip(model.predict(X), 0, 100)
 
     out = []
-    for (b, h, day, row), score in zip(meta, scores):
+    for (b, h, day, row, remaining_life), score in zip(meta, scores):
         # Past expiry the stock is written off; training data has almost no such
         # rows, so this is a business rule rather than a model prediction.
         if row["days_to_expiry"] < 0:
@@ -264,7 +288,7 @@ def predict_open_batches(model, fruit_cols, batches, moves, weather, today, hori
         out.append({
             "inventory_batch_id": int(b["batch_id"]), "inventory_item_id": int(b["item_id"]),
             "prediction_date": today.date(), "horizon_day": h, "risk_score": round(float(score), 2),
-            "risk_level": level, "stock_age_days": row["stock_age_days"],
+            "risk_level": level, "stock_age_days": row["stock_age_days"], "remaining_shelf_life_days": remaining_life,
             "turnover_rate": round(row["turnover_rate"], 4), "sales_trend": round(row["sales_trend"], 4),
             "temperature": round(float(row["temperature"]), 2), "humidity": round(float(row["humidity"]), 2),
             "rainfall": round(float(row["rainfall"]), 2),
@@ -290,30 +314,24 @@ def shelf_life_rule_predictions(batches, moves, weather, today, horizon):
     stats = item_sales_stats(moves, batches["received_date"].min() - pd.Timedelta(days=28), today)
     w3 = weather_3day(weather, dates)
     shelf_lives = typical_shelf_life(batches)
-    observed = weather[~weather["is_forecast"].astype(bool)] if not weather.empty else weather
-    recent = observed[observed.index >= today - pd.Timedelta(days=365)]
-    t_ref = float(recent["temperature"].astype(float).mean()) if len(recent) else REFERENCE_TEMP_C
+    t_ref = temperature_reference(weather, today)
 
     out = []
     for _, b in open_b.iterrows():
-        received = b["received_date"]
-        shelf_life = ((b["expiry_date"] - received).days if pd.notna(b["expiry_date"])
-                      else shelf_lives.get(b["fruit"], DEFAULT_SHELF_LIFE_DAYS))
-        shelf_life = max(shelf_life, 1)
-        temps = weather_for(weather, pd.date_range(received, dates[-1], freq="D"))["temperature"].astype(float)
-        # effective days elapsed before each day starts (age 0 on the day received)
-        effective_age = (Q10 ** ((temps - t_ref) / 10)).cumsum().shift(1, fill_value=0.0)
+        shelf_life = batch_shelf_life(b, shelf_lives)
+        age = effective_age(weather, b["received_date"], dates[-1], t_ref)
         current = feature_row(b, today, b["quantity"], shelf_life, stats)
 
         for h, day in enumerate(dates):
             days_to_expiry = current["days_to_expiry"] - h
-            score = 100.0 if days_to_expiry < 0 else min(100.0, 100 * (effective_age[day] / shelf_life) ** 2)
+            score = 100.0 if days_to_expiry < 0 else min(100.0, 100 * (age[day] / shelf_life) ** 2)
             level = risk_level(score)
             weather_day = w3.loc[day]
             out.append({
                 "inventory_batch_id": int(b["batch_id"]), "inventory_item_id": int(b["item_id"]),
                 "prediction_date": today.date(), "horizon_day": h, "risk_score": round(float(score), 2),
                 "risk_level": level, "stock_age_days": current["stock_age_days"] + h,
+                "remaining_shelf_life_days": round(float(shelf_life - age[day]), 1),
                 "turnover_rate": round(current["turnover_rate"], 4), "sales_trend": round(current["sales_trend"], 4),
                 "temperature": round(float(weather_day["temperature"]), 2),
                 "humidity": round(float(weather_day["humidity"]), 2),
@@ -326,7 +344,7 @@ def shelf_life_rule_predictions(batches, moves, weather, today, horizon):
 def save_predictions(conn, preds, today):
     now = datetime.now()
     cols = ["inventory_batch_id", "inventory_item_id", "prediction_date", "horizon_day", "risk_score", "risk_level",
-            "stock_age_days", "turnover_rate", "sales_trend", "temperature", "humidity", "rainfall", "recommendation"]
+            "stock_age_days", "remaining_shelf_life_days", "turnover_rate", "sales_trend", "temperature", "humidity", "rainfall", "recommendation"]
     cur = conn.cursor()
     cur.execute("DELETE FROM spoilage_predictions WHERE prediction_date = %s", (today.date(),))
     cur.executemany(
