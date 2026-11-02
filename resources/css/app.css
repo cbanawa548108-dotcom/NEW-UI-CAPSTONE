@@ -9,3 +9,142 @@
     --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+:root {
+    --brand-50: #F5F3FF;
+    --brand-100: #EDE9FE;
+    --brand-200: #DDD6FE;
+    --brand-300: #C4B5FD;
+    --brand-400: #A78BFA;
+    --brand-500: #8B5CF6;
+    --brand-600: #7C3AED;
+    --brand-700: #6D28D9;
+    --brand-800: #5B21B6;
+    --brand-900: #4C1D95;
+}
+
+body {
+    background: var(--brand-50);
+    color: #1F2937;
+}
+
+[class*="text-green-"],
+[class*="text-emerald-"],
+[class*="text-teal-"],
+[class*="text-cyan-"],
+[class*="text-sky-"],
+[class*="text-blue-"],
+[class*="text-indigo-"],
+[class*="text-violet-"],
+[class*="text-purple-"],
+[class*="text-fuchsia-"],
+[class*="text-pink-"],
+[class*="text-rose-"],
+[class*="text-yellow-"],
+[class*="text-amber-"],
+[class*="text-orange-"],
+[class*="text-red-"] {
+    color: var(--brand-700) !important;
+}
+
+[class*="bg-green-"],
+[class*="bg-emerald-"],
+[class*="bg-teal-"],
+[class*="bg-cyan-"],
+[class*="bg-sky-"],
+[class*="bg-blue-"],
+[class*="bg-indigo-"],
+[class*="bg-violet-"],
+[class*="bg-purple-"],
+[class*="bg-fuchsia-"],
+[class*="bg-pink-"],
+[class*="bg-rose-"],
+[class*="bg-yellow-"],
+[class*="bg-amber-"],
+[class*="bg-orange-"],
+[class*="bg-red-"] {
+    background-color: var(--brand-100) !important;
+    color: var(--brand-700) !important;
+}
+
+[class*="border-green-"],
+[class*="border-emerald-"],
+[class*="border-teal-"],
+[class*="border-cyan-"],
+[class*="border-sky-"],
+[class*="border-blue-"],
+[class*="border-indigo-"],
+[class*="border-violet-"],
+[class*="border-purple-"],
+[class*="border-fuchsia-"],
+[class*="border-pink-"],
+[class*="border-rose-"],
+[class*="border-yellow-"],
+[class*="border-amber-"],
+[class*="border-orange-"],
+[class*="border-red-"] {
+    border-color: var(--brand-200) !important;
+}
+
+.g-violet,
+.g-violet-r,
+.g-green,
+.g-emerald,
+.g-rose,
+.g-amber,
+.g-blue,
+.g-teal,
+.g-orange,
+.g-indigo,
+.g-hero,
+.btn-violet,
+.btn-green {
+    background: linear-gradient(135deg, var(--brand-600) 0%, var(--brand-700) 100%) !important;
+    color: #fff !important;
+}
+
+.badge-violet,
+.badge-green,
+.badge-red,
+.badge-amber,
+.badge-orange,
+.badge-blue,
+.badge-gray {
+    background: var(--brand-100) !important;
+    color: var(--brand-700) !important;
+}
+
+.card,
+.feature-card,
+.hero-card,
+.stat-card,
+.glass,
+.nav-link.active,
+.btn-outline:hover,
+.inp:focus,
+.skeleton {
+    border-color: rgba(124, 58, 237, 0.14) !important;
+}
+
+.btn-outline:hover,
+.nav-link:hover,
+.inp:focus,
+.tbl tbody tr:hover td {
+    background-color: var(--brand-50) !important;
+}
+
+.pulse-dot {
+    background-color: var(--brand-600) !important;
+}
+
+.progress-bar {
+    background: var(--brand-100) !important;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, var(--brand-600), var(--brand-700)) !important;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, var(--brand-100) 25%, var(--brand-200) 50%, var(--brand-100) 75%) !important;
+}

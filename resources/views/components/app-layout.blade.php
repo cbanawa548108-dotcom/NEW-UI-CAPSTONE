@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'FreshTrack — Fruit Inventory System' }}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,9 +16,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
     <style>
-        /* ═══════════════════════════════════════════════════════
-           FreshTrack DESIGN SYSTEM — WHITE + VIOLET + GREEN
-        ═══════════════════════════════════════════════════════ */
+          /* ═══════════════════════════════════════════════════════
+              FreshTrack DESIGN SYSTEM — SINGLE VIOLET BRAND
+          ═══════════════════════════════════════════════════════ */
         :root {
             --white:       #FFFFFF;
             --bg-soft:     #F5F3FF;
@@ -25,10 +26,6 @@
             --violet-dark: #6D28D9;
             --violet-light:#8B5CF6;
             --violet-pale: #EDE9FE;
-            --green:       #10B981;
-            --green-light: #34D399;
-            --green-dark:  #059669;
-            --green-pale:  #D1FAE5;
             --gray-50:     #F9FAFB;
             --gray-100:    #F3F4F6;
             --gray-200:    #E5E7EB;
@@ -70,15 +67,15 @@
         /* ── Gradients ── */
         .g-violet   { background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%); }
         .g-violet-r { background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 60%, #6D28D9 100%); }
-        .g-green    { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
-        .g-emerald  { background: linear-gradient(135deg, #34D399 0%, #10B981 100%); }
-        .g-rose     { background: linear-gradient(135deg, #F43F5E 0%, #E11D48 100%); }
-        .g-amber    { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); }
-        .g-blue     { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); }
-        .g-teal     { background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%); }
-        .g-orange   { background: linear-gradient(135deg, #F97316 0%, #EA580C 100%); }
-        .g-indigo   { background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); }
-        .g-hero     { background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 40%, #10B981 100%); }
+        .g-green,
+        .g-emerald,
+        .g-rose,
+        .g-amber,
+        .g-blue,
+        .g-teal,
+        .g-orange,
+        .g-indigo,
+        .g-hero     { background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%); }
 
         /* ── Cards ── */
         .card {
@@ -132,8 +129,8 @@
         .btn:active { transform: scale(.97); }
         .btn-violet { background: linear-gradient(135deg, #7C3AED, #6D28D9); color: #fff; box-shadow: 0 4px 16px rgba(124,58,237,.35); }
         .btn-violet:hover { box-shadow: 0 6px 22px rgba(124,58,237,.45); transform: translateY(-1px); }
-        .btn-green  { background: linear-gradient(135deg, #10B981, #059669); color: #fff; box-shadow: 0 4px 14px rgba(16,185,129,.3); }
-        .btn-green:hover { box-shadow: 0 6px 20px rgba(16,185,129,.4); transform: translateY(-1px); }
+        .btn-green  { background: linear-gradient(135deg, #7C3AED, #6D28D9); color: #fff; box-shadow: 0 4px 14px rgba(124,58,237,.3); }
+        .btn-green:hover { box-shadow: 0 6px 20px rgba(124,58,237,.4); transform: translateY(-1px); }
         .btn-outline { background: #fff; border: 1.5px solid #E5E7EB; color: var(--gray-600); }
         .btn-outline:hover { border-color: #7C3AED; color: #7C3AED; background: #F5F3FF; }
         .btn-sm { padding: 7px 14px; font-size: 12px; border-radius: 10px; }
@@ -143,12 +140,12 @@
         /* ── Badges ── */
         .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
         .badge-violet  { background: #EDE9FE; color: #7C3AED; }
-        .badge-green   { background: #D1FAE5; color: #059669; }
-        .badge-red     { background: #FEE2E2; color: #DC2626; }
-        .badge-amber   { background: #FEF3C7; color: #D97706; }
-        .badge-orange  { background: #FFF7ED; color: #EA580C; }
-        .badge-blue    { background: #DBEAFE; color: #2563EB; }
-        .badge-gray    { background: #F3F4F6; color: #6B7280; }
+        .badge-green,
+        .badge-red,
+        .badge-amber,
+        .badge-orange,
+        .badge-blue,
+        .badge-gray    { background: #EDE9FE; color: #6D28D9; }
 
         /* ── Form inputs ── */
         .inp {

@@ -1,0 +1,282 @@
+{
+  "model": "SARIMAX(2, 1, 1)x(0, 1, 1, 7)",
+  "order": [
+    2,
+    1,
+    1
+  ],
+  "seasonal_order": [
+    0,
+    1,
+    1,
+    7
+  ],
+  "aic": 10867.348022446935,
+  "aic_grid": [
+    {
+      "order": [
+        1,
+        0,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        0,
+        1,
+        7
+      ],
+      "aic": 11013.617028024191,
+      "converged": true
+    },
+    {
+      "order": [
+        1,
+        0,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        1,
+        1,
+        7
+      ],
+      "aic": 10892.346536403307,
+      "converged": true
+    },
+    {
+      "order": [
+        1,
+        0,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        1,
+        1,
+        7
+      ],
+      "aic": 10888.005248963858,
+      "converged": true
+    },
+    {
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        0,
+        1,
+        7
+      ],
+      "aic": 11156.279126485133,
+      "converged": true
+    },
+    {
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        1,
+        1,
+        7
+      ],
+      "aic": 10870.92640893919,
+      "converged": true
+    },
+    {
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        1,
+        1,
+        7
+      ],
+      "aic": 10871.858054363547,
+      "converged": false
+    },
+    {
+      "order": [
+        2,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        0,
+        1,
+        7
+      ],
+      "aic": 11065.248213540417,
+      "converged": true
+    },
+    {
+      "order": [
+        2,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        1,
+        1,
+        7
+      ],
+      "aic": 10867.348022446935,
+      "converged": true
+    },
+    {
+      "order": [
+        2,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        1,
+        1,
+        7
+      ],
+      "aic": 10872.83717956216,
+      "converged": true
+    },
+    {
+      "order": [
+        0,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        0,
+        1,
+        7
+      ],
+      "aic": 11079.153544361096,
+      "converged": false
+    },
+    {
+      "order": [
+        0,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        0,
+        1,
+        1,
+        7
+      ],
+      "aic": 10956.709948628259,
+      "converged": true
+    },
+    {
+      "order": [
+        0,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        1,
+        1,
+        7
+      ],
+      "aic": 10954.008633817766,
+      "converged": false
+    }
+  ],
+  "weather_used": true,
+  "exog": [
+    "is_holiday",
+    "onpromotion",
+    "temperature_c",
+    "humidity_pct",
+    "rainfall_mm",
+    "weather_Drizzle",
+    "weather_Rain"
+  ],
+  "train_period": [
+    "2015-06-01",
+    "2017-03-06"
+  ],
+  "test_period": [
+    "2017-03-07",
+    "2017-08-15"
+  ],
+  "evaluation": "rolling 7-day-ahead from weekly origins, fitted params applied without re-fitting",
+  "days_scored": 162,
+  "sarimax": {
+    "mae": 928.899884310756,
+    "rmse": 1338.1830596396533,
+    "mape": 6.249378386368647
+  },
+  "baseline_seasonal_naive": {
+    "mae": 1384.7720205555554,
+    "rmse": 1887.4855435343404,
+    "mape": 9.335062843528208
+  },
+  "mae_improvement_pct": 32.92037457991883,
+  "coefficients": {
+    "is_holiday": {
+      "coef": 546.8965506400153,
+      "p_value": 0.00020518760067717598
+    },
+    "onpromotion": {
+      "coef": 305.4011577748265,
+      "p_value": 0.16960433058077984
+    },
+    "temperature_c": {
+      "coef": 407.4658497654371,
+      "p_value": 1.09975305167946e-09
+    },
+    "humidity_pct": {
+      "coef": 46.04193382527838,
+      "p_value": 0.0048364698992338475
+    },
+    "rainfall_mm": {
+      "coef": 1.602554882580975,
+      "p_value": 0.8517729104379831
+    },
+    "weather_Drizzle": {
+      "coef": -108.33181872574744,
+      "p_value": 0.5759589405414272
+    },
+    "weather_Rain": {
+      "coef": -210.69859395268887,
+      "p_value": 0.39000776105255797
+    },
+    "ar.L1": {
+      "coef": 0.4365299183905405,
+      "p_value": 2.0153583076946233e-37
+    },
+    "ar.L2": {
+      "coef": -0.10210017163288637,
+      "p_value": 0.0057032643421611896
+    },
+    "ma.L1": {
+      "coef": -0.9398915756913729,
+      "p_value": 0.0
+    },
+    "ma.S.L7": {
+      "coef": -0.9498983740540726,
+      "p_value": 0.0
+    },
+    "sigma2": {
+      "coef": 1558448.4791205898,
+      "p_value": 9.353991979202228e-168
+    }
+  },
+  "significant_weather_terms": [
+    "temperature_c",
+    "humidity_pct"
+  ]
+}

@@ -40,13 +40,13 @@
                         </button>
                     </div>
                     <div>
-                        <h4 class="font-black text-gray-900 text-[18px]">Juan Dela Cruz</h4>
+                        <h4 class="font-black text-gray-900 text-[18px]">Criss Banawa</h4>
                         <p class="text-gray-500 text-[13px] mt-0.5">Owner · FreshTrack Davao City</p>
                         <span class="badge badge-violet text-[11px] mt-2">Administrator</span>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    @foreach([['First Name','text','Juan',''],['Last Name','text','Dela Cruz',''],['Email Address','email','juan@FreshTrack.ph','md:col-span-2'],['Phone Number','tel','+63 912 345 6789',''],['Business Name','text','FreshTrack Davao',''],['Location','text','Davao City, Philippines',''],['Role','text','Owner · Administrator',''],['Account Created','text','January 15, 2026','md:col-span-2']] as [$l,$t,$v,$c])
+                    @foreach([['First Name','text','Criss',''],['Last Name','text','Banawa',''],['Email Address','email','juan@FreshTrack.ph','md:col-span-2'],['Phone Number','tel','+63 912 345 6789',''],['Business Name','text','FreshTrack Davao',''],['Location','text','Davao City, Philippines',''],['Role','text','Owner · Administrator',''],['Account Created','text','January 15, 2026','md:col-span-2']] as [$l,$t,$v,$c])
                     <div class="{{ $c }}"><label class="inp-label">{{ $l }}</label><input type="{{ $t }}" value="{{ $v }}" class="inp {{ in_array($l,['Role','Account Created']) ? 'bg-gray-100 cursor-not-allowed' : '' }}" {{ in_array($l,['Role','Account Created']) ? 'readonly' : '' }}></div>
                     @endforeach
                 </div>
@@ -74,7 +74,7 @@
                 <div>
                     <h4 class="text-[12px] font-bold text-gray-500 uppercase tracking-wider mb-3">Alert Types</h4>
                     <div class="space-y-3">
-                        @foreach([['notifLow','Low Stock Alerts','Alert when fruit stock falls below minimum level','notifLow'],['notifSpoil','Spoilage Risk Alerts','Alert when spoilage risk exceeds threshold','notifSpoil'],['notifForecast','AI Forecast Updates','Alert when new AI forecast is ready','notifForecast']] as $n)
+                        @foreach([['notifLow','Low Stock Alerts','Alert when fruit stock falls below minimum level','notifLow'],['notifSpoil','Spoilage Risk Alerts','Alert when spoilage risk exceeds threshold','notifSpoil'],['notifForecast','Sales Forecast Updates','Alert when new sales forecast is ready','notifForecast']] as $n)
                         <div class="flex items-center justify-between p-4 bg-[#F9F8FF] rounded-2xl border border-violet-100">
                             <div><p class="text-[13.5px] font-semibold text-gray-800">{{ $n[1] }}</p><p class="text-[12px] text-gray-400 mt-0.5">{{ $n[2] }}</p></div>
                             <button @click="{{ $n[3] }} = !{{ $n[3] }}" :class="{{ $n[3] }} ? 'g-violet' : 'bg-gray-300'" class="relative w-12 h-6 rounded-full transition-all duration-200 flex-shrink-0 shadow-inner">

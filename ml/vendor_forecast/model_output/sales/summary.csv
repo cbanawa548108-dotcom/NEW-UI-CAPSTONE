@@ -1,0 +1,11 @@
+product,model,sarimax_mae,sarimax_rmse,sarimax_mape,baseline_mae,baseline_mape,mae_improvement_pct,significant_weather
+Banana,"SARIMAX(1, 0, 1)x(1, 1, 1, 7)",23.9239,29.4124,13.9981,33.2131,19.3256,27.9686,none
+Durian,"SARIMAX(0, 1, 1)x(1, 1, 1, 7)",10.0218,13.3502,16.5056,12.8224,20.9905,21.8415,none
+Jackfruit,"SARIMAX(1, 0, 1)x(0, 1, 1, 7)",8.3627,10.1579,14.0132,11.5492,19.1178,27.5902,none
+Lanzones,"SARIMAX(1, 0, 1)x(0, 1, 1, 7)",18.5103,24.9242,16.0654,24.5055,21.1137,24.4644,none
+Mango,"SARIMAX(1, 0, 1)x(0, 1, 1, 7)",17.6106,21.9822,13.2384,24.8962,18.6796,29.2639,none
+Mangosteen,"SARIMAX(1, 0, 1)x(0, 1, 1, 7)",12.4094,16.4328,16.4407,16.8361,22.3217,26.2929,none
+Papaya,"SARIMAX(1, 0, 1)x(0, 1, 1, 7)",15.624,19.3625,14.9237,21.4836,20.3661,27.2749,"weather_Drizzle, weather_Rain"
+Pomelo,"SARIMAX(1, 0, 1)x(0, 1, 1, 7)",13.2364,17.0307,15.3125,16.9918,19.5882,22.1014,none
+Rambutan,"SARIMAX(1, 0, 1)x(0, 1, 1, 7)",16.7433,20.6967,14.2555,23.2842,19.4198,28.0914,none
+Watermelon,"SARIMAX(1, 0, 1)x(0, 1, 1, 7)",10.0536,12.632,13.5834,13.1885,17.5067,23.7704,none

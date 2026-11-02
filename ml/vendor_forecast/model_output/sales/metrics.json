@@ -1,0 +1,2729 @@
+{
+  "Banana": {
+    "model": "SARIMAX(1, 0, 1)x(1, 1, 1, 7)",
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      1,
+      1,
+      1,
+      7
+    ],
+    "aic": 13870.912382623614,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13941.602896376366,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13873.436644681473,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13870.912382623614,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13941.211075162842,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13882.473673394548,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13880.044453709728,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13942.115134641774,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13881.51405618104,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13878.948719422468,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13941.114143896099,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13883.789813343867,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13881.658526524618,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 23.923884800627864,
+      "rmse": 29.412359550251782,
+      "mape": 13.998139396456418
+    },
+    "baseline_seasonal_naive": {
+      "mae": 33.21311475409836,
+      "rmse": 41.25834904743788,
+      "mape": 19.32557007998389
+    },
+    "mae_improvement_pct": 27.968560077082945,
+    "coefficients": {
+      "is_holiday": {
+        "coef": 3.8036216079093954,
+        "p_value": 0.2864036357128227
+      },
+      "temperature_c": {
+        "coef": -1.7158592625661877,
+        "p_value": 0.22580985372314455
+      },
+      "humidity_pct": {
+        "coef": -0.299028377959884,
+        "p_value": 0.21011001679982644
+      },
+      "rainfall_mm": {
+        "coef": -0.06460347091222964,
+        "p_value": 0.4515717441934891
+      },
+      "weather_Drizzle": {
+        "coef": 0.9465319035813021,
+        "p_value": 0.7931396738763885
+      },
+      "weather_Rain": {
+        "coef": 4.166934242753386,
+        "p_value": 0.28473350662017394
+      },
+      "ar.L1": {
+        "coef": -0.5614868333501314,
+        "p_value": 0.056738077371770744
+      },
+      "ma.L1": {
+        "coef": 0.5079265912682107,
+        "p_value": 0.09822815440648643
+      },
+      "ar.S.L7": {
+        "coef": 0.056535731079102876,
+        "p_value": 0.033197123878006204
+      },
+      "ma.S.L7": {
+        "coef": -0.9976285459017383,
+        "p_value": 4.901049640274076e-263
+      },
+      "sigma2": {
+        "coef": 783.7638538632575,
+        "p_value": 7.70173094113265e-102
+      }
+    },
+    "significant_weather_terms": []
+  },
+  "Durian": {
+    "model": "SARIMAX(0, 1, 1)x(1, 1, 1, 7)",
+    "order": [
+      0,
+      1,
+      1
+    ],
+    "seasonal_order": [
+      1,
+      1,
+      1,
+      7
+    ],
+    "aic": 11599.77373211112,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11676.84169257243,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 11602.008450021409,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 11594.007259238486,
+        "converged": false
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11660.49696780195,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 11608.558009439472,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 11601.548887187419,
+        "converged": false
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11662.251514914009,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 11610.283930070356,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 11602.712583979519,
+        "converged": false
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11658.784644093997,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 11606.99883769387,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 11599.77373211112,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 10.021799198248603,
+      "rmse": 13.350154697614355,
+      "mape": 16.50558387270245
+    },
+    "baseline_seasonal_naive": {
+      "mae": 12.8224043715847,
+      "rmse": 17.132798571314783,
+      "mape": 20.990487577337266
+    },
+    "mae_improvement_pct": 21.841497835947397,
+    "coefficients": {
+      "is_holiday": {
+        "coef": -1.2320784400180864,
+        "p_value": 0.42517923770860233
+      },
+      "temperature_c": {
+        "coef": 0.14018841116022776,
+        "p_value": 0.8725212078844449
+      },
+      "humidity_pct": {
+        "coef": 0.06982447521279346,
+        "p_value": 0.6522893211718287
+      },
+      "rainfall_mm": {
+        "coef": -0.03697661890784163,
+        "p_value": 0.38679268523229715
+      },
+      "weather_Drizzle": {
+        "coef": 0.36288500108839733,
+        "p_value": 0.821695105601893
+      },
+      "weather_Rain": {
+        "coef": 0.4228950602111972,
+        "p_value": 0.8090371136964681
+      },
+      "ma.L1": {
+        "coef": -0.8136386515558497,
+        "p_value": 0.0
+      },
+      "ar.S.L7": {
+        "coef": 0.08186373803745346,
+        "p_value": 0.0008351285401293153
+      },
+      "ma.S.L7": {
+        "coef": -0.9993603175106063,
+        "p_value": 1.0949662457443418e-19
+      },
+      "sigma2": {
+        "coef": 165.00713265834133,
+        "p_value": 4.327215042203372e-19
+      }
+    },
+    "significant_weather_terms": []
+  },
+  "Jackfruit": {
+    "model": "SARIMAX(1, 0, 1)x(0, 1, 1, 7)",
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      7
+    ],
+    "aic": 10952.984978883578,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11013.499876807578,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 10952.984978883578,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 10954.975306183043,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11013.909520648289,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 10966.07945168809,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 10968.015490757469,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11017.370408778632,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 10967.710141853891,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 10969.771577905924,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11011.993590094991,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 10964.210996825783,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 10966.149937077822,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 8.362744073733998,
+      "rmse": 10.157889888751555,
+      "mape": 14.013200707787385
+    },
+    "baseline_seasonal_naive": {
+      "mae": 11.549180327868852,
+      "rmse": 14.4457719720634,
+      "mape": 19.11783671148522
+    },
+    "mae_improvement_pct": 27.590150674553033,
+    "coefficients": {
+      "is_holiday": {
+        "coef": 0.7383455538328089,
+        "p_value": 0.5561197577022532
+      },
+      "temperature_c": {
+        "coef": 0.6424686571930555,
+        "p_value": 0.22215770979867755
+      },
+      "humidity_pct": {
+        "coef": 0.06940919086666276,
+        "p_value": 0.44995595813429
+      },
+      "rainfall_mm": {
+        "coef": -0.014464083265791391,
+        "p_value": 0.6777936251873694
+      },
+      "weather_Drizzle": {
+        "coef": 0.5424889783915515,
+        "p_value": 0.7426468260373171
+      },
+      "weather_Rain": {
+        "coef": 0.4869259352223644,
+        "p_value": 0.7772644154665636
+      },
+      "ar.L1": {
+        "coef": -0.8146846697961249,
+        "p_value": 2.3386476035833416e-08
+      },
+      "ma.L1": {
+        "coef": 0.8478400051889277,
+        "p_value": 2.246637211947364e-10
+      },
+      "ma.S.L7": {
+        "coef": -0.9993840905701452,
+        "p_value": 1.5024101180984277e-21
+      },
+      "sigma2": {
+        "coef": 105.24316289435653,
+        "p_value": 1.9196297371321904e-20
+      }
+    },
+    "significant_weather_terms": []
+  },
+  "Lanzones": {
+    "model": "SARIMAX(1, 0, 1)x(0, 1, 1, 7)",
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      7
+    ],
+    "aic": 13523.640636058599,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13596.998130254562,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13523.640636058599,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13525.465568413289,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13589.257476892526,
+        "converged": false
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13528.213486775097,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13529.922620526835,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13591.72455579985,
+        "converged": false
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13530.317761590504,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13531.923627762957,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13591.671831777614,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13530.209967773348,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13532.164163552494,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 18.510345957810355,
+      "rmse": 24.924191127211376,
+      "mape": 16.065430366791077
+    },
+    "baseline_seasonal_naive": {
+      "mae": 24.505464480874316,
+      "rmse": 33.06629373577821,
+      "mape": 21.113746978574767
+    },
+    "mae_improvement_pct": 24.464414978720146,
+    "coefficients": {
+      "is_holiday": {
+        "coef": -1.100860140998587,
+        "p_value": 0.7258474949370718
+      },
+      "temperature_c": {
+        "coef": 1.8332348834414613,
+        "p_value": 0.3254191344469157
+      },
+      "humidity_pct": {
+        "coef": 0.04037165818835718,
+        "p_value": 0.9010831064863486
+      },
+      "rainfall_mm": {
+        "coef": 0.048442954795884736,
+        "p_value": 0.5703108173539362
+      },
+      "weather_Drizzle": {
+        "coef": 1.9820082669861616,
+        "p_value": 0.44732805476694837
+      },
+      "weather_Rain": {
+        "coef": 2.263479478593347,
+        "p_value": 0.4545550917625024
+      },
+      "ar.L1": {
+        "coef": 0.9811011174122538,
+        "p_value": 0.0
+      },
+      "ma.L1": {
+        "coef": -0.7585094830905871,
+        "p_value": 0.0
+      },
+      "ma.S.L7": {
+        "coef": -0.9995528454848107,
+        "p_value": 1.4714378557239636e-12
+      },
+      "sigma2": {
+        "coef": 617.4537018382872,
+        "p_value": 3.7654237343482624e-13
+      }
+    },
+    "significant_weather_terms": []
+  },
+  "Mango": {
+    "model": "SARIMAX(1, 0, 1)x(0, 1, 1, 7)",
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      7
+    ],
+    "aic": 13156.731032637563,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13221.01464064262,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13156.731032637563,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13156.76090338227,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13219.622555128342,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13163.523468750265,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13163.90751897361,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13222.766014630053,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13164.617211454284,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13164.677052447576,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13217.866125104534,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 13162.838727079066,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 13162.524838495783,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 17.610571142347368,
+      "rmse": 21.98224132455671,
+      "mape": 13.238401263341288
+    },
+    "baseline_seasonal_naive": {
+      "mae": 24.896174863387976,
+      "rmse": 31.152805134683504,
+      "mape": 18.679590628268137
+    },
+    "mae_improvement_pct": 29.26394822103669,
+    "coefficients": {
+      "is_holiday": {
+        "coef": 0.2039339830069305,
+        "p_value": 0.9406589216676989
+      },
+      "temperature_c": {
+        "coef": 0.29835451250325234,
+        "p_value": 0.781785351821042
+      },
+      "humidity_pct": {
+        "coef": 0.16214600640896204,
+        "p_value": 0.367356134190018
+      },
+      "rainfall_mm": {
+        "coef": 0.013641308992689604,
+        "p_value": 0.8681258703366461
+      },
+      "weather_Drizzle": {
+        "coef": 1.1467263628918185,
+        "p_value": 0.6848081267717774
+      },
+      "weather_Rain": {
+        "coef": -0.9877068045998231,
+        "p_value": 0.7456521966725715
+      },
+      "ar.L1": {
+        "coef": -0.3772860404894169,
+        "p_value": 0.5692073479915594
+      },
+      "ma.L1": {
+        "coef": 0.34350177675290233,
+        "p_value": 0.608610958888619
+      },
+      "ma.S.L7": {
+        "coef": -0.9966604599768902,
+        "p_value": 0.0
+      },
+      "sigma2": {
+        "coef": 480.1420721071572,
+        "p_value": 1.8321464610752256e-132
+      }
+    },
+    "significant_weather_terms": []
+  },
+  "Mangosteen": {
+    "model": "SARIMAX(1, 0, 1)x(0, 1, 1, 7)",
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      7
+    ],
+    "aic": 12061.453253884407,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12128.03184313441,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12061.453253884407,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12063.423866522022,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12123.28268973419,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12068.767539414235,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12070.695502382918,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12124.548732028015,
+        "converged": false
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12069.702202153341,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12071.707256771042,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12121.678342223902,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12066.986667762922,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12068.967759118499,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 12.409380218074167,
+      "rmse": 16.432768486325383,
+      "mape": 16.440667158228703
+    },
+    "baseline_seasonal_naive": {
+      "mae": 16.83606557377049,
+      "rmse": 21.759490109744426,
+      "mape": 22.321674717196906
+    },
+    "mae_improvement_pct": 26.29287309615148,
+    "coefficients": {
+      "is_holiday": {
+        "coef": 1.9934477855857806,
+        "p_value": 0.24182789903365665
+      },
+      "temperature_c": {
+        "coef": 0.85109620894511,
+        "p_value": 0.4113853093879726
+      },
+      "humidity_pct": {
+        "coef": -0.03628493196364251,
+        "p_value": 0.8442888298214937
+      },
+      "rainfall_mm": {
+        "coef": 0.013810648631923904,
+        "p_value": 0.7679471424807199
+      },
+      "weather_Drizzle": {
+        "coef": 1.190923967135414,
+        "p_value": 0.5997048475726272
+      },
+      "weather_Rain": {
+        "coef": 1.4731730777567524,
+        "p_value": 0.5417996658376452
+      },
+      "ar.L1": {
+        "coef": 0.9851869259040064,
+        "p_value": 0.0
+      },
+      "ma.L1": {
+        "coef": -0.824312345047514,
+        "p_value": 0.0
+      },
+      "ma.S.L7": {
+        "coef": -0.9936985156925694,
+        "p_value": 0.0
+      },
+      "sigma2": {
+        "coef": 226.94790142872606,
+        "p_value": 1.1073719504683395e-200
+      }
+    },
+    "significant_weather_terms": []
+  },
+  "Papaya": {
+    "model": "SARIMAX(1, 0, 1)x(0, 1, 1, 7)",
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      7
+    ],
+    "aic": 12626.108466311482,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12689.101187957833,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12626.108466311482,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12628.096345257245,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12684.690734376003,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12633.165168717172,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12638.177679819903,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12685.84102196242,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12633.725853948607,
+        "converged": false
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12638.634156313215,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12682.23427655768,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12632.09064476518,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12634.083175120944,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 15.623965326664763,
+      "rmse": 19.362505733027366,
+      "mape": 14.923742951308999
+    },
+    "baseline_seasonal_naive": {
+      "mae": 21.483606557377048,
+      "rmse": 27.33954680809708,
+      "mape": 20.366108397151645
+    },
+    "mae_improvement_pct": 27.27494201247229,
+    "coefficients": {
+      "is_holiday": {
+        "coef": -0.30757453108572697,
+        "p_value": 0.8785467283995653
+      },
+      "temperature_c": {
+        "coef": 0.04898820654534109,
+        "p_value": 0.9565410390057528
+      },
+      "humidity_pct": {
+        "coef": -0.0005837531920712349,
+        "p_value": 0.9966450779827094
+      },
+      "rainfall_mm": {
+        "coef": -0.018613527810956043,
+        "p_value": 0.7537171163679796
+      },
+      "weather_Drizzle": {
+        "coef": 4.18295722201049,
+        "p_value": 0.03376570729616038
+      },
+      "weather_Rain": {
+        "coef": 4.535171603736545,
+        "p_value": 0.03819185796089354
+      },
+      "ar.L1": {
+        "coef": -0.34161625718529537,
+        "p_value": 0.6575310812856572
+      },
+      "ma.L1": {
+        "coef": 0.31185425641205033,
+        "p_value": 0.6890304407325842
+      },
+      "ma.S.L7": {
+        "coef": -0.9836079722567239,
+        "p_value": 0.0
+      },
+      "sigma2": {
+        "coef": 335.51845495939955,
+        "p_value": 1.1946955067405075e-149
+      }
+    },
+    "significant_weather_terms": [
+      "weather_Drizzle",
+      "weather_Rain"
+    ]
+  },
+  "Pomelo": {
+    "model": "SARIMAX(1, 0, 1)x(0, 1, 1, 7)",
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      7
+    ],
+    "aic": 12421.33801259986,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12504.938063972826,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12421.33801259986,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12422.307862347932,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12481.363143206785,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12424.64528878225,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12425.873274247067,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12482.045319411238,
+        "converged": false
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12425.259576902516,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12425.961027222134,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 12479.492321195077,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12422.687452874357,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12423.90753926833,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 13.236370722828822,
+      "rmse": 17.030718864927834,
+      "mape": 15.31247115632757
+    },
+    "baseline_seasonal_naive": {
+      "mae": 16.991803278688526,
+      "rmse": 21.911583382740687,
+      "mape": 19.588218763657984
+    },
+    "mae_improvement_pct": 22.101436170520206,
+    "coefficients": {
+      "is_holiday": {
+        "coef": -0.003194128463372056,
+        "p_value": 0.9986874845972891
+      },
+      "temperature_c": {
+        "coef": -0.514182814915141,
+        "p_value": 0.6500465847451924
+      },
+      "humidity_pct": {
+        "coef": 0.13817402388998104,
+        "p_value": 0.44353771832054845
+      },
+      "rainfall_mm": {
+        "coef": -0.09891687940531725,
+        "p_value": 0.07294837096465798
+      },
+      "weather_Drizzle": {
+        "coef": 1.0903796721170307,
+        "p_value": 0.6106758601667712
+      },
+      "weather_Rain": {
+        "coef": 0.6049278460301025,
+        "p_value": 0.800580625169035
+      },
+      "ar.L1": {
+        "coef": 0.989190915636704,
+        "p_value": 0.0
+      },
+      "ma.L1": {
+        "coef": -0.8239429664166412,
+        "p_value": 0.0
+      },
+      "ma.S.L7": {
+        "coef": -0.9997915132980957,
+        "p_value": 0.001050343956986251
+      },
+      "sigma2": {
+        "coef": 289.3504755493035,
+        "p_value": 0.0011450162360374316
+      }
+    },
+    "significant_weather_terms": []
+  },
+  "Rambutan": {
+    "model": "SARIMAX(1, 0, 1)x(0, 1, 1, 7)",
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      7
+    ],
+    "aic": 12962.576823721236,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13026.633581212349,
+        "converged": false
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12962.576823721236,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12964.340295468033,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13024.44243515399,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12969.871361471633,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12971.774837063844,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13025.636917139602,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12970.828694966694,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12972.697326211757,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 13021.336877442656,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 12968.151697086296,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 12970.070945113153,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 16.743317573727477,
+      "rmse": 20.696701847827335,
+      "mape": 14.255456774903887
+    },
+    "baseline_seasonal_naive": {
+      "mae": 23.284153005464482,
+      "rmse": 29.15841413304397,
+      "mape": 19.4198165918181
+    },
+    "mae_improvement_pct": 28.091360807506966,
+    "coefficients": {
+      "is_holiday": {
+        "coef": 0.6396496394535331,
+        "p_value": 0.79440349898379
+      },
+      "temperature_c": {
+        "coef": 1.949461898979987,
+        "p_value": 0.0647117264584817
+      },
+      "humidity_pct": {
+        "coef": 0.24702385236280722,
+        "p_value": 0.12992976997777003
+      },
+      "rainfall_mm": {
+        "coef": 0.05876077817379308,
+        "p_value": 0.3877353467665604
+      },
+      "weather_Drizzle": {
+        "coef": 3.3187693063207884,
+        "p_value": 0.24167258929711832
+      },
+      "weather_Rain": {
+        "coef": 2.307165345578299,
+        "p_value": 0.44795734164459877
+      },
+      "ar.L1": {
+        "coef": 0.8421513811370904,
+        "p_value": 4.166375167221493e-05
+      },
+      "ma.L1": {
+        "coef": -0.8620333042256778,
+        "p_value": 8.585368071766535e-06
+      },
+      "ma.S.L7": {
+        "coef": -0.986518083848054,
+        "p_value": 0.0
+      },
+      "sigma2": {
+        "coef": 422.39204725771106,
+        "p_value": 5.572884835768223e-161
+      }
+    },
+    "significant_weather_terms": []
+  },
+  "Watermelon": {
+    "model": "SARIMAX(1, 0, 1)x(0, 1, 1, 7)",
+    "order": [
+      1,
+      0,
+      1
+    ],
+    "seasonal_order": [
+      0,
+      1,
+      1,
+      7
+    ],
+    "aic": 11536.629239170796,
+    "aic_grid": [
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11604.853859786266,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 11536.629239170796,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          0,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 11536.672105889722,
+        "converged": false
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11597.164963470754,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 11547.003183426044,
+        "converged": true
+      },
+      {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 11548.197704498438,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11599.288164923362,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 11548.072702590714,
+        "converged": true
+      },
+      {
+        "order": [
+          2,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 11549.856194745971,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          0,
+          1,
+          7
+        ],
+        "aic": 11596.070183997123,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          0,
+          1,
+          1,
+          7
+        ],
+        "aic": 11546.349319249777,
+        "converged": true
+      },
+      {
+        "order": [
+          0,
+          1,
+          1
+        ],
+        "seasonal_order": [
+          1,
+          1,
+          1,
+          7
+        ],
+        "aic": 11547.697113419323,
+        "converged": true
+      }
+    ],
+    "exog": [
+      "is_holiday",
+      "temperature_c",
+      "humidity_pct",
+      "rainfall_mm",
+      "weather_Drizzle",
+      "weather_Rain"
+    ],
+    "weather_reference": "Cloudy",
+    "weather_merged": {
+      "Clear": "Cloudy"
+    },
+    "train_period": [
+      "2020-01-01",
+      "2023-12-31"
+    ],
+    "test_period": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "days_scored": 366,
+    "sarimax": {
+      "mae": 10.053563950684502,
+      "rmse": 12.632004992808982,
+      "mape": 13.583430389623441
+    },
+    "baseline_seasonal_naive": {
+      "mae": 13.188524590163935,
+      "rmse": 16.973219020987923,
+      "mape": 17.506654636647635
+    },
+    "mae_improvement_pct": 23.77036656410757,
+    "coefficients": {
+      "is_holiday": {
+        "coef": -0.9863172485948991,
+        "p_value": 0.5177976519588201
+      },
+      "temperature_c": {
+        "coef": -0.8860390702439759,
+        "p_value": 0.14844553654358705
+      },
+      "humidity_pct": {
+        "coef": -0.16614211804877144,
+        "p_value": 0.10972859330250861
+      },
+      "rainfall_mm": {
+        "coef": 0.0383315435708639,
+        "p_value": 0.3224877913516586
+      },
+      "weather_Drizzle": {
+        "coef": 2.7262516357829263,
+        "p_value": 0.07957152934324499
+      },
+      "weather_Rain": {
+        "coef": 2.6343189158033353,
+        "p_value": 0.11505171553770147
+      },
+      "ar.L1": {
+        "coef": -0.8628804199520623,
+        "p_value": 8.454652381742651e-11
+      },
+      "ma.L1": {
+        "coef": 0.835209290185067,
+        "p_value": 8.270069684489129e-09
+      },
+      "ma.S.L7": {
+        "coef": -0.9978430865378732,
+        "p_value": 1.3788070614183427e-222
+      },
+      "sigma2": {
+        "coef": 157.4236014239732,
+        "p_value": 2.543611174065559e-90
+      }
+    },
+    "significant_weather_terms": []
+  }
+}

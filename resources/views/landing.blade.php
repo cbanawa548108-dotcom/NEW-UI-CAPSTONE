@@ -11,9 +11,13 @@
         *,*::before,*::after{box-sizing:border-box}
         body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;background:#fff;color:#1F2937}
         h1,h2,h3,h4{font-family:'Poppins',sans-serif}
-        .g-hero{background:linear-gradient(135deg,#7C3AED 0%,#6D28D9 40%,#059669 100%)}
+        .g-hero{background:linear-gradient(135deg,#7C3AED 0%,#6D28D9 50%,#4C1D95 100%)}
         .g-violet{background:linear-gradient(135deg,#7C3AED,#6D28D9)}
-        .g-green{background:linear-gradient(135deg,#10B981,#059669)}
+        .g-green{background:linear-gradient(135deg,#7C3AED,#6D28D9)}
+        .hero-accent{color:#DDD6FE}
+        .hero-dot{background:#C4B5FD}
+        .hero-bar{background:rgba(196,181,253,.75)}
+        .hero-pill{background:rgba(196,181,253,.2);color:#DDD6FE;border:1px solid rgba(196,181,253,.35)}
         .float-1{animation:float1 6s ease-in-out infinite}
         .float-2{animation:float2 8s ease-in-out infinite}
         .float-3{animation:float3 7s ease-in-out infinite}
@@ -48,8 +52,8 @@
         </div>
         <div class="flex items-center gap-3">
             <a href="{{ route('login') }}" class="btn-hero bg-white border-2 border-violet-200 text-violet-700 px-5 py-2.5 text-[13.5px]">Sign In</a>
-            <a href="{{ route('dashboard') }}" class="btn-hero g-violet text-white shadow-lg shadow-violet-300/50 px-5 py-2.5 text-[13.5px]">
-                View Dashboard →
+            <a href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="btn-hero g-violet text-white shadow-lg shadow-violet-300/50 px-5 py-2.5 text-[13.5px]">
+                {{ auth()->check() ? 'View Dashboard →' : 'Sign In to Dashboard →' }}
             </a>
         </div>
     </div>
@@ -69,12 +73,12 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
                 <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
-                    <span class="w-2 h-2 bg-green-300 rounded-full pulse-dot" style="animation:pulseDot 2.2s infinite"></span>
+                    <span class="w-2 h-2 hero-dot rounded-full pulse-dot" style="animation:pulseDot 2.2s infinite"></span>
                     <span class="text-white/90 text-[12.5px] font-semibold">AI-Powered · Davao City · 2026</span>
                 </div>
                 <h1 class="text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
                     Sales Forecasting<br>
-                    <span class="text-green-300">&amp; Inventory</span><br>
+                    <span class="hero-accent">&amp; Inventory</span><br>
                     Management
                 </h1>
                 <p class="text-white/80 text-[17px] leading-relaxed mb-8 max-w-lg">
@@ -84,14 +88,14 @@
                     <a href="{{ route('login') }}" class="btn-hero bg-white text-violet-700 shadow-xl shadow-violet-900/30">
                         Get Started Free
                     </a>
-                    <a href="{{ route('dashboard') }}" class="btn-hero bg-white/15 backdrop-blur-sm border border-white/30 text-white hover:bg-white/25">
+                    <a href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="btn-hero bg-white/15 backdrop-blur-sm border border-white/30 text-white hover:bg-white/25">
                         View Live Demo →
                     </a>
                 </div>
                 <div class="flex items-center gap-6 mt-10">
                     @foreach([['96%','Forecast Accuracy'],['42+','Fruit Batches'],['₱342K','Monthly Revenue']] as [$v,$l])
                     <div class="text-center">
-                        <p class="text-3xl font-black text-green-300">{{ $v }}</p>
+                        <p class="text-3xl font-black hero-accent">{{ $v }}</p>
                         <p class="text-white/60 text-[11.5px] font-medium mt-0.5">{{ $l }}</p>
                     </div>
                     @endforeach
@@ -106,13 +110,13 @@
                             <p class="text-white font-bold text-sm">AI Sales Forecast</p>
                             <p class="text-white/60 text-[11px]">Next 7 days prediction</p>
                         </div>
-                        <span class="ml-auto bg-green-400/20 text-green-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-green-400/30">96.4% ACC</span>
+                        <span class="ml-auto hero-pill text-[10px] font-bold px-2.5 py-1 rounded-full">96.4% ACC</span>
                     </div>
                     <div class="grid grid-cols-7 gap-1.5">
                         @foreach([65,72,68,85,92,88,79] as $h)
                         <div class="flex flex-col items-center gap-1">
                             <div class="w-full bg-white/10 rounded-lg overflow-hidden" style="height:80px">
-                                <div class="w-full bg-green-400/60 rounded-lg transition-all" style="height:{{ $h }}%;margin-top:{{ 100-$h }}%"></div>
+                                <div class="w-full hero-bar rounded-lg transition-all" style="height:{{ $h }}%;margin-top:{{ 100-$h }}%"></div>
                             </div>
                             <span class="text-white/50 text-[9px]">D{{ $loop->index+1 }}</span>
                         </div>
@@ -123,12 +127,12 @@
                     <div class="hero-card p-4">
                         <p class="text-white/60 text-[11px] font-medium mb-1">Today's Sales</p>
                         <p class="text-white font-black text-2xl">₱18,450</p>
-                        <p class="text-green-300 text-[11px] font-semibold mt-1">↑ +12.5% vs yesterday</p>
+                        <p class="hero-accent text-[11px] font-semibold mt-1">↑ +12.5% vs yesterday</p>
                     </div>
                     <div class="hero-card p-4">
                         <p class="text-white/60 text-[11px] font-medium mb-1">Spoilage Risk</p>
                         <p class="text-white font-black text-2xl">8.4%</p>
-                        <p class="text-green-300 text-[11px] font-semibold mt-1">↓ -2.1% improvement</p>
+                        <p class="hero-accent text-[11px] font-semibold mt-1">↓ -2.1% improvement</p>
                     </div>
                     <div class="hero-card p-4">
                         <p class="text-white/60 text-[11px] font-medium mb-1">Inventory</p>
@@ -138,7 +142,7 @@
                     <div class="hero-card p-4">
                         <p class="text-white/60 text-[11px] font-medium mb-1">AI Score</p>
                         <p class="text-white font-black text-2xl">94/100</p>
-                        <p class="text-green-300 text-[11px] font-semibold mt-1">↑ +3pts this week</p>
+                        <p class="hero-accent text-[11px] font-semibold mt-1">↑ +3pts this week</p>
                     </div>
                 </div>
             </div>
@@ -160,7 +164,6 @@
                 ['M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z','AI Sales Forecast','Predict fruit demand 7 days ahead with 96%+ accuracy using machine learning models trained on local market data.'],
                 ['M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4','Smart Inventory','Real-time batch tracking with expiry alerts, stock levels, and automated restock recommendations.'],
                 ['M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z','Spoilage Prediction','AI-powered spoilage risk analysis using temperature, humidity, and CO₂ sensor data.'],
-                ['M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z','Image Processing','Upload fruit photos for instant quality grading — ripeness score, defect detection, and grade classification.'],
                 ['M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z','Decision Support','Actionable recommendations: sell now, apply discounts, reorder, and optimize pricing for maximum profit.'],
                 ['M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z','Analytics Dashboard','Executive-grade charts: revenue trends, forecast accuracy, waste reduction, and profit margins.'],
             ];
@@ -195,7 +198,7 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             @foreach([['96.4%','Forecast Accuracy','Across all fruit categories'],['↓62%','Spoilage Reduction','AI-guided sell priorities'],['₱342K','Monthly Revenue','Tracked & optimized'],['8 hrs','Time Saved Daily','Automated decisions']] as [$v,$l,$d])
             <div class="stat-card text-center">
-                <p class="text-4xl font-black text-green-300 mb-2">{{ $v }}</p>
+                <p class="text-4xl font-black hero-accent mb-2">{{ $v }}</p>
                 <p class="text-white font-bold text-[15px]">{{ $l }}</p>
                 <p class="text-white/50 text-[12px] mt-1">{{ $d }}</p>
             </div>
@@ -217,7 +220,7 @@
                 <div class="w-12 h-12 bg-gray-50 border border-gray-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-violet-50 group-hover:border-violet-200 transition-all"><svg class="w-6 h-6 text-gray-400 group-hover:text-violet-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>
                 <p class="font-bold text-gray-900 text-[13px]">{{ $n }}</p>
                 <p class="text-violet-600 text-[11.5px] font-semibold">{{ $p }}</p>
-                <div class="mt-2 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">{{ $a }} acc.</div>
+                <div class="mt-2 bg-violet-100 text-violet-700 text-[10px] font-bold px-2 py-0.5 rounded-full">{{ $a }} acc.</div>
             </div>
             @endforeach
         </div>
@@ -253,7 +256,7 @@
                 </div>
                 <p class="text-gray-400 text-[13px] leading-relaxed">Capstone project — Sales Forecasting & Inventory Management System for Fruit Vendors in Davao City.</p>
             </div>
-            @foreach([['Platform',['Dashboard','Inventory','AI Forecast','Spoilage','Scanner']],['Analytics',['Sales Reports','Analytics','Decision Support','Notifications','Settings']],['About',['Davao City','Capstone 2026','Laravel 12','AI/ML System','v2.0 Beta']]] as [$g,$links])
+            @foreach([['Platform',['Dashboard','Inventory','Sales Forecasting','Spoilage','Decision Support']],['Analytics',['Sales Reports','Analytics','Notifications','Settings','About']]] as [$g,$links])
             <div>
                 <h4 class="font-bold text-[13px] text-gray-300 uppercase tracking-wider mb-4">{{ $g }}</h4>
                 <ul class="space-y-2">
@@ -267,8 +270,8 @@
         <div class="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p class="text-gray-500 text-[12.5px]">© 2026 FreshTrack — Capstone Project · All rights reserved · Davao City, Philippines</p>
             <div class="flex items-center gap-2">
-                <span class="w-2 h-2 bg-green-400 rounded-full" style="animation:pulseDot 2.2s infinite"></span>
-                <span class="text-green-400 text-[12px] font-semibold">System Online</span>
+                <span class="w-2 h-2 hero-dot rounded-full" style="animation:pulseDot 2.2s infinite"></span>
+                <span class="hero-accent text-[12px] font-semibold">System Online</span>
             </div>
         </div>
     </div>

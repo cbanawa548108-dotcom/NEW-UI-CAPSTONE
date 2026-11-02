@@ -155,11 +155,12 @@ main.pos-full { padding: 0 !important; overflow: hidden !important; }
 
 /* Scrollable product area */
 .product-scroll { overflow-y:auto; flex:1; }
-.cart-scroll { overflow-y:auto; flex:1; }
+.cart-scroll { overflow-y:auto; max-height: 120px !important; min-height: 60px; }
 
 /* Input number hide arrows */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+input[type=number] { -moz-appearance: textfield; }
 </style>
 @endpush
 
@@ -233,7 +234,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         <div class="hidden md:flex items-center gap-2 flex-shrink-0">
             <div class="w-8 h-8 g-violet rounded-full flex items-center justify-center text-white text-xs font-black shadow-md shadow-violet-200">JD</div>
             <div class="hidden xl:block">
-                <p class="text-[12px] font-semibold text-gray-900 leading-tight">Juan Dela Cruz</p>
+                <p class="text-[12px] font-semibold text-gray-900 leading-tight">Criss Banawa</p>
                 <p class="text-[10.5px] text-violet-500">Cashier</p>
             </div>
         </div>
@@ -284,7 +285,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             {{-- Fruit count bar --}}
             <div class="flex items-center justify-between px-5 py-2.5 bg-white border-b border-[rgba(124,58,237,.05)] flex-shrink-0">
                 <p class="text-[12.5px] text-gray-500 font-medium">
-                    Showing <span class="font-bold text-violet-700" x-text="filteredFruits.length"></span> fruits
+                    Showing <span class="font-bold text-violet-700" x-text="filteredFruits.length"></span> products
                     <span x-show="search" class="text-gray-400"> for "<span class="text-violet-600 font-semibold" x-text="search"></span>"</span>
                 </p>
                 <div class="flex items-center gap-2">
@@ -305,8 +306,8 @@ document.addEventListener('DOMContentLoaded',()=>{
                 {{-- Empty state --}}
                 <div x-show="filteredFruits.length===0" class="flex flex-col items-center justify-center h-full py-20">
                     <div class="text-6xl mb-4">🔍</div>
-                    <p class="text-gray-500 font-semibold text-[15px]">No fruits found</p>
-                    <p class="text-gray-400 text-[13px] mt-1">Try a different search or category</p>
+                    <p class="text-gray-500 font-semibold text-[15px]" x-text="loading ? 'Loading products...' : 'No products found'"></p>
+                    <p class="text-gray-400 text-[13px] mt-1" x-show="!loading">Try a different search or category</p>
                 </div>
 
                 <div :class="`grid gap-3 grid-cols-${gridCols}`" x-show="filteredFruits.length>0">
@@ -380,7 +381,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         </div>
 
         {{-- ═══════ RIGHT PANEL — CART & CHECKOUT (30%) ═══════ --}}
-        <div class="flex flex-col bg-white" style="width:30%">
+        <div class="flex flex-col bg-white" style="width:30%; height: 100%; max-height: calc(100vh - 68px); overflow: hidden;">
 
             {{-- Cart header --}}
             <div class="flex items-center justify-between px-5 py-3.5 border-b border-[rgba(124,58,237,.07)] flex-shrink-0">
@@ -407,7 +408,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             </div>
 
             {{-- Order meta --}}
-            <div class="px-5 py-3 bg-[#FAFAFE] border-b border-[rgba(124,58,237,.06)] flex-shrink-0">
+            <div class="px-5 py-2 bg-[#FAFAFE] border-b border-[rgba(124,58,237,.06)] flex-shrink-0">
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="inp-label text-[10px]">Customer Name</label>
@@ -415,15 +416,20 @@ document.addEventListener('DOMContentLoaded',()=>{
                                class="inp py-2 text-[12.5px]">
                     </div>
                     <div>
-                        <label class="inp-label text-[10px]">Date</label>
-                        <input type="text" :value="currentDate" readonly class="inp py-2 text-[12.5px] bg-gray-50">
+                        <label class="inp-label text-[10px]">Payment Method</label>
+                        <select x-model="paymentMethod" class="inp py-2 text-[12.5px] font-semibold">
+                            <option value="cash">💵 Cash</option>
+                            <option value="gcash">📱 GCash</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
-            {{-- Cart items --}}
-            <div class="cart-scroll px-4 py-3 space-y-2 flex-1">
-                {{-- Empty cart --}}
+            {{-- Cart items + Summary + Cash + Payment - ALL SCROLLABLE --}}
+            <div class="flex-1 overflow-y-auto" style="max-height: calc(100vh - 200px);">
+                {{-- Cart items --}}
+                <div class="px-4 py-2 space-y-2">
+                    {{-- Empty cart --}}
                 <div x-show="cart.length===0" class="flex flex-col items-center justify-center h-full py-12 text-center">
                     <div class="w-20 h-20 bg-[#F5F3FF] rounded-3xl flex items-center justify-center mb-4 mx-auto">
                         <svg class="w-9 h-9 text-violet-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -455,7 +461,14 @@ document.addEventListener('DOMContentLoaded',()=>{
                                 <div class="flex items-center justify-between mt-1.5">
                                     <div class="flex items-center gap-1.5">
                                         <button @click="decreaseQty(idx)" class="qty-btn minus">−</button>
-                                        <span class="w-8 text-center font-bold text-[13px] text-gray-800" x-text="item.qty"></span>
+                                        <input type="number" 
+                                               x-model.number="item.qty"
+                                               @input="updateQty(idx, $event.target.value)"
+                                               @blur="validateQty(idx)"
+                                               step="0.01"
+                                               min="0.01"
+                                               class="w-16 text-center font-bold text-[13px] text-gray-800 border border-gray-200 rounded-lg py-1 focus:border-violet-500 focus:outline-none"
+                                               style="appearance: textfield;">
                                         <button @click="increaseQty(idx)" class="qty-btn plus">+</button>
                                     </div>
                                     <p class="font-black text-gray-900 text-[13.5px]" x-text="'₱'+formatNum(item.subtotal)"></p>
@@ -466,100 +479,78 @@ document.addEventListener('DOMContentLoaded',()=>{
                 </template>
             </div>
 
+            {{-- ══ CHECKOUT BUTTON - MINIMIZED ══ --}}
+            <div class="px-4 py-2 flex-shrink-0 bg-white border-b border-gray-100" x-show="cart.length>0">
+                <button @click="completeSale()"
+                        :disabled="(paymentMethod==='cash' && cashReceived<total && cashReceived>0) || loading"
+                        class="checkout-btn ripple w-full py-2.5"
+                        :class="(paymentMethod==='cash' && cashReceived>0 && cashReceived<total) || loading ? 'opacity-50 cursor-not-allowed' : ''">
+                    <span class="flex items-center justify-center gap-2 text-[13px] font-bold">
+                        <template x-if="!loading">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </template>
+                        <template x-if="loading">
+                            <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </template>
+                        <span x-text="loading ? 'Processing...' : 'COMPLETE SALE • ₱'+formatNum(total)"></span>
+                    </span>
+                </button>
+            </div>
+
             {{-- ══ SUMMARY ══ --}}
-            <div class="flex-shrink-0 border-t border-[rgba(124,58,237,.07)] px-5 py-4 space-y-0.5" x-show="cart.length>0">
-                <div class="sum-row text-gray-500">
+            <div class="flex-shrink-0 border-t border-[rgba(124,58,237,.07)] px-4 py-1.5 space-y-0" x-show="cart.length>0">
+                <div class="sum-row text-gray-500 text-[11px] py-0.5">
                     <span>Subtotal</span>
                     <span class="font-semibold text-gray-700" x-text="'₱'+formatNum(subtotal)"></span>
                 </div>
-                <div class="sum-row text-gray-500">
+                <div class="sum-row text-gray-500 text-[11px] py-0.5">
                     <div class="flex items-center gap-2">
                         <span>Discount</span>
-                        <button @click="discountModal=true" class="text-[10.5px] text-violet-600 font-semibold hover:underline">[Edit]</button>
+                        <button @click="discountModal=true" class="text-[9px] text-violet-600 font-semibold hover:underline">[Edit]</button>
                     </div>
                     <span class="font-semibold text-green-600" x-text="discount>0 ? '-₱'+formatNum(discountAmt) : '—'"></span>
                 </div>
-                <div class="sum-row text-gray-500">
+                <div class="sum-row text-gray-500 text-[11px] py-0.5">
                     <span>Tax (12%)</span>
                     <span class="font-semibold text-gray-700" x-text="'₱'+formatNum(taxAmt)"></span>
                 </div>
-                <div class="sum-row total">
+                <div class="sum-row total text-[14px] pt-1">
                     <span>Total</span>
                     <span class="text-violet-700" x-text="'₱'+formatNum(total)"></span>
                 </div>
             </div>
 
             {{-- ══ CASH RECEIVED + CHANGE ══ --}}
-            <div class="px-5 pb-3 flex-shrink-0" x-show="cart.length>0 && paymentMethod==='cash'">
-                <div class="grid grid-cols-2 gap-2 mb-2">
+            <div class="px-4 py-2 flex-shrink-0 border-t border-gray-100" x-show="cart.length>0 && paymentMethod==='cash'">
+                <div class="grid grid-cols-2 gap-2 mb-1.5">
                     <div>
-                        <label class="inp-label text-[10px]">Cash Received</label>
-                        <input type="number" x-model.number="cashReceived" placeholder="0.00"
-                               class="inp py-2 text-[13px] font-bold" min="0">
+                        <label class="inp-label text-[9px]">Cash</label>
+                        <input type="number" x-model.number="cashReceived" placeholder="0"
+                               class="inp py-1.5 text-[12px] font-bold" min="0">
                     </div>
                     <div>
-                        <label class="inp-label text-[10px]">Change</label>
-                        <div class="inp py-2 text-[13px] font-black"
+                        <label class="inp-label text-[9px]">Change</label>
+                        <div class="inp py-1.5 text-[12px] font-black"
                              :class="change<0 ? 'text-red-500' : 'text-green-600'"
-                             x-text="cashReceived>0 ? (change>=0 ? '₱'+formatNum(change) : '— Insufficient') : '—'"></div>
+                             x-text="cashReceived>0 ? (change>=0 ? '₱'+formatNum(change) : 'Low') : '—'"></div>
                     </div>
                 </div>
-                {{-- Quick cash amounts --}}
-                <div class="flex gap-1.5 flex-wrap mb-2">
+                <div class="flex gap-1 flex-wrap">
                     <template x-for="amt in [100,200,500,1000,total]" :key="amt">
                         <button @click="cashReceived=amt"
-                                :class="cashReceived===amt ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-gray-600 border-gray-200'"
-                                class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg border transition-all hover:border-violet-400 hover:text-violet-700"
-                                x-text="amt===total ? 'Exact' : '₱'+formatNum(amt)"></button>
+                                :class="cashReceived===amt ? 'bg-violet-600 text-white' : 'bg-gray-100 text-gray-600'"
+                                class="text-[10px] font-bold px-2 py-1 rounded-lg"
+                                x-text="amt===total ? 'Exact' : '₱'+amt"></button>
                     </template>
                 </div>
             </div>
+            </div>{{-- END SCROLLABLE SECTION --}}
 
-            {{-- ══ PAYMENT METHODS ══ --}}
-            <div class="px-5 pb-3 flex-shrink-0" x-show="cart.length>0">
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Payment Method</p>
-                <div class="flex gap-1.5">
-                    <template x-for="pm in paymentMethods" :key="pm.key">
-                        <button class="pay-btn" :class="paymentMethod===pm.key ? 'active' : ''"
-                                @click="paymentMethod=pm.key">
-                            <span class="text-lg" x-text="pm.icon"></span>
-                            <span x-text="pm.label"></span>
-                        </button>
-                    </template>
-                </div>
-            </div>
-
-            {{-- ══ QUICK ACTIONS ══ --}}
-            <div class="px-5 pb-3 flex-shrink-0 grid grid-cols-3 gap-1.5" x-show="cart.length>0">
-                <button @click="applyDiscount()" class="flex items-center justify-center gap-1 text-[11px] font-semibold text-violet-600 bg-violet-50 hover:bg-violet-100 border border-violet-200 py-2 rounded-xl transition-all">
-                    🏷 Discount
-                </button>
-                <button @click="priceCheck()" class="flex items-center justify-center gap-1 text-[11px] font-semibold text-gray-500 bg-gray-50 hover:bg-gray-100 border border-gray-200 py-2 rounded-xl transition-all">
-                    🔍 Price Check
-                </button>
-                <button @click="voidTransaction()" class="flex items-center justify-center gap-1 text-[11px] font-semibold text-red-500 bg-red-50 hover:bg-red-100 border border-red-200 py-2 rounded-xl transition-all">
-                    ✕ Void
-                </button>
-            </div>
-
-            {{-- ══ CHECKOUT BUTTON ══ --}}
-            <div class="px-5 pb-5 flex-shrink-0">
-                <button x-show="cart.length>0"
-                        @click="completeSale()"
-                        :disabled="paymentMethod==='cash' && cashReceived<total && cashReceived>0"
-                        class="checkout-btn ripple"
-                        :class="(paymentMethod==='cash' && cashReceived>0 && cashReceived<total) ? 'opacity-50 cursor-not-allowed' : ''">
-                    <span class="flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        Complete Sale · <span x-text="'₱'+formatNum(total)"></span>
-                    </span>
-                </button>
-                <div x-show="cart.length===0" class="text-center py-3">
-                    <p class="text-[12px] text-gray-300 font-medium">Add items to begin checkout</p>
-                </div>
-            </div>
         </div>
     </div>{{-- end split --}}
 
@@ -665,8 +656,8 @@ document.addEventListener('DOMContentLoaded',()=>{
             {{-- Receipt info --}}
             <div class="px-7 py-5 space-y-3">
                 <div class="flex justify-between text-[13.5px]">
-                    <span class="text-gray-400 font-medium">Receipt No.</span>
-                    <span class="font-black text-gray-900" x-text="'#RCP-'+completedOrder.receiptNo"></span>
+                    <span class="text-gray-400 font-medium">Transaction No.</span>
+                    <span class="font-black text-gray-900" x-text="completedOrder.receiptNo"></span>
                 </div>
                 <div class="flex justify-between text-[13.5px]">
                     <span class="text-gray-400 font-medium">Customer</span>
@@ -859,7 +850,7 @@ function posApp() {
         /* ── State ── */
         search: '',
         searchFocus: false,
-        activeCategory: 'All Fruits',
+        activeCategory: 'All',
         gridCols: 3,
         cart: [],
         customerName: '',
@@ -874,41 +865,51 @@ function posApp() {
         showAiRecs: false,
         showRecentTxn: false,
         completedOrder: {},
-        orderNumber: 8842,
+        orderNumber: Date.now(),
         currentTime: '',
         currentDate: '',
+        loading: false,
+        error: null,
 
-        /* ── Data ── */
-        categories: ['All Fruits','Fresh Fruits','Seasonal Fruits','Best Sellers','Recently Added'],
-
-        fruits: [
-            { id:1,  emoji:'🥭', name:'Mango',       price:120,  priceLabel:'₱120/kg',  stock:50, unit:'kg',  freshness:95, spoilageRisk:null,     category:'Best Sellers',    storage:'Store at room temp. Refrigerate when ripe.', spoilageNote:'' },
-            { id:2,  emoji:'🍌', name:'Banana',       price:80,   priceLabel:'₱80/kg',   stock:45, unit:'kg',  freshness:92, spoilageRisk:null,     category:'Fresh Fruits',    storage:'Keep at room temperature away from sunlight.', spoilageNote:'' },
-            { id:3,  emoji:'🍈', name:'Pomelo',       price:180,  priceLabel:'₱180/pc',  stock:20, unit:'pcs', freshness:90, spoilageRisk:null,     category:'Seasonal Fruits', storage:'Best stored in cool, dry place for up to 2 weeks.', spoilageNote:'' },
-            { id:4,  emoji:'🍍', name:'Pineapple',    price:150,  priceLabel:'₱150/pc',  stock:15, unit:'pcs', freshness:78, spoilageRisk:'Medium', category:'Best Sellers',    storage:'Refrigerate cut pineapple. Whole: room temp 2 days.', spoilageNote:'Demand 20% below forecast. Discount recommended.' },
-            { id:5,  emoji:'🍊', name:'Durian',       price:250,  priceLabel:'₱250/kg',  stock:12, unit:'kg',  freshness:88, spoilageRisk:null,     category:'Seasonal Fruits', storage:'Keep in airtight container. Consume within 3 days.', spoilageNote:'' },
-            { id:6,  emoji:'🍇', name:'Mangosteen',   price:200,  priceLabel:'₱200/kg',  stock:18, unit:'kg',  freshness:96, spoilageRisk:null,     category:'Fresh Fruits',    storage:'Refrigerate for up to 1 week. Do not freeze.', spoilageNote:'' },
-            { id:7,  emoji:'🍋', name:'Lanzones',     price:90,   priceLabel:'₱90/kg',   stock:35, unit:'kg',  freshness:85, spoilageRisk:null,     category:'Recently Added',  storage:'Room temperature for 3-5 days. Refrigerate for longer.', spoilageNote:'' },
-            { id:8,  emoji:'🫐', name:'Rambutan',     price:110,  priceLabel:'₱110/kg',  stock:28, unit:'kg',  freshness:91, spoilageRisk:null,     category:'Fresh Fruits',    storage:'Refrigerate in bag for up to 2 weeks.', spoilageNote:'' },
-            { id:9,  emoji:'🍓', name:'Strawberry',   price:320,  priceLabel:'₱320/box', stock:10, unit:'box', freshness:89, spoilageRisk:'High',   category:'Seasonal Fruits', storage:'Refrigerate immediately. Use within 3 days.', spoilageNote:'High perishability. Sell ASAP or apply 15% discount.' },
-            { id:10, emoji:'🍑', name:'Papaya',       price:75,   priceLabel:'₱75/kg',   stock:40, unit:'kg',  freshness:93, spoilageRisk:null,     category:'Best Sellers',    storage:'Refrigerate ripe papaya for up to 5 days.', spoilageNote:'' },
-            { id:11, emoji:'🥝', name:'Kiwi',         price:180,  priceLabel:'₱180/box', stock:22, unit:'box', freshness:94, spoilageRisk:null,     category:'Recently Added',  storage:'Refrigerate. Can last 4-6 weeks uncut.', spoilageNote:'' },
-            { id:12, emoji:'🍉', name:'Watermelon',   price:95,   priceLabel:'₱95/kg',   stock:8,  unit:'kg',  freshness:97, spoilageRisk:null,     category:'Seasonal Fruits', storage:'Room temperature whole. Refrigerate cut pieces.', spoilageNote:'' },
-        ],
+        /* ── Data (loaded from API) ── */
+        categories: ['All'],
+        fruits: [],
+        rawProducts: [],
 
         paymentMethods: [
             { key:'cash',   icon:'💵', label:'Cash' },
             { key:'gcash',  icon:'📱', label:'GCash' },
-            { key:'maya',   icon:'💙', label:'Maya' },
-            { key:'card',   icon:'💳', label:'Card' },
-            { key:'split',  icon:'✂️', label:'Split' },
         ],
+
+        /* ── Product emoji mapping ── */
+        productEmoji: {
+            'Mango': '🥭',
+            'Banana': '🍌',
+            'Pomelo': '🍈',
+            'Pineapple': '🍍',
+            'Durian': '🍊',
+            'Mangosteen': '🍇',
+            'Lanzones': '🍋',
+            'Rambutan': '🫐',
+            'Strawberry': '🍓',
+            'Papaya': '🍑',
+            'Kiwi': '🥝',
+            'Watermelon': '🍉',
+            'Orange': '🍊',
+            'Apple': '🍎',
+            'Grapes': '🍇',
+            'Avocado': '🥑',
+            'Lemon': '🍋',
+            'Coconut': '🥥',
+            'Peach': '🍑',
+            'Cherry': '🍒'
+        },
 
         /* ── Computed getters ── */
         get filteredFruits() {
             return this.fruits.filter(f => {
                 const matchSearch = !this.search || f.name.toLowerCase().includes(this.search.toLowerCase());
-                const matchCat    = this.activeCategory === 'All Fruits' || f.category === this.activeCategory;
+                const matchCat    = this.activeCategory === 'All' || f.category === this.activeCategory;
                 return matchSearch && matchCat;
             });
         },
@@ -916,59 +917,199 @@ function posApp() {
             return this.cart.reduce((s, i) => s + i.subtotal, 0);
         },
         get discountAmt() {
-            return Math.round(this.subtotal * this.discount / 100);
+            return Math.round(this.subtotal * this.discount / 100 * 100) / 100;
         },
         get taxAmt() {
-            return Math.round((this.subtotal - this.discountAmt) * 0.12);
+            return Math.round((this.subtotal - this.discountAmt) * 0.12 * 100) / 100;
         },
         get total() {
-            return this.subtotal - this.discountAmt + this.taxAmt;
+            return Math.round((this.subtotal - this.discountAmt + this.taxAmt) * 100) / 100;
         },
         get change() {
-            return this.cashReceived - this.total;
+            return Math.round((this.cashReceived - this.total) * 100) / 100;
         },
 
         /* ── Methods ── */
-        init() {
+        async init() {
             this.updateClock();
             setInterval(() => this.updateClock(), 1000);
+            await this.loadProducts();
         },
+
+        async loadProducts() {
+            this.loading = true;
+            this.error = null;
+            try {
+                const response = await fetch('/api/pos/products');
+                if (!response.ok) throw new Error('Failed to load products');
+                const data = await response.json();
+                
+                this.rawProducts = data;
+                
+                // Extract categories
+                const cats = new Set(['All']);
+                data.forEach(p => {
+                    if (p.category) cats.add(p.category);
+                });
+                this.categories = Array.from(cats);
+                
+                // Transform products to fruit format
+                this.fruits = data.map(product => {
+                    const firstBatch = product.batches && product.batches[0];
+                    const emoji = this.productEmoji[product.name] || '🍎';
+                    const price = firstBatch ? parseFloat(firstBatch.price_per_unit) : 0;
+                    const stock = product.available_stock || 0;
+                    
+                    // Calculate freshness based on days to expiry
+                    let freshness = 95;
+                    let spoilageRisk = null;
+                    let spoilageNote = '';
+                    
+                    if (firstBatch && firstBatch.expiry_date) {
+                        const expiryDate = new Date(firstBatch.expiry_date);
+                        const today = new Date();
+                        const daysToExpiry = Math.floor((expiryDate - today) / (1000 * 60 * 60 * 24));
+                        
+                        if (daysToExpiry <= 2) {
+                            freshness = 70;
+                            spoilageRisk = 'High';
+                            spoilageNote = `Expires in ${daysToExpiry} day(s). Sell ASAP or discount.`;
+                        } else if (daysToExpiry <= 5) {
+                            freshness = 82;
+                            spoilageRisk = 'Medium';
+                            spoilageNote = `Expires in ${daysToExpiry} days. Monitor closely.`;
+                        } else if (daysToExpiry <= 10) {
+                            freshness = 90;
+                        }
+                    }
+                    
+                    return {
+                        id: product.id,
+                        emoji: emoji,
+                        name: product.name,
+                        price: price,
+                        priceLabel: `₱${price.toFixed(2)}/${product.unit || 'unit'}`,
+                        stock: stock,
+                        unit: product.unit || 'unit',
+                        freshness: freshness,
+                        spoilageRisk: spoilageRisk,
+                        category: product.category || 'Uncategorized',
+                        storage: 'Store in cool, dry place. Refrigerate when ripe.',
+                        spoilageNote: spoilageNote,
+                        batches: product.batches || [],
+                        batch_id: firstBatch ? firstBatch.id : null,
+                        batch_code: firstBatch ? firstBatch.batch_code : null
+                    };
+                });
+                
+            } catch (err) {
+                console.error('Error loading products:', err);
+                this.error = err.message;
+                alert('Failed to load products: ' + err.message);
+            } finally {
+                this.loading = false;
+            }
+        },
+
         updateClock() {
             const now = new Date();
             this.currentTime = now.toLocaleTimeString('en-PH', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
             this.currentDate = now.toLocaleDateString('en-PH', { month:'long', day:'numeric', year:'numeric' });
         },
+
         formatNum(n) {
             if (!n && n !== 0) return '0.00';
             return Number(n).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         },
+
         isInCart(id) {
             return this.cart.some(i => i.id === id);
         },
+
         addToCart(fruit) {
+            if (fruit.stock <= 0) {
+                alert(`${fruit.name} is out of stock!`);
+                return;
+            }
+            
             const existing = this.cart.find(i => i.id === fruit.id);
             if (existing) {
-                if (existing.qty < fruit.stock) { existing.qty++; existing.subtotal = existing.qty * existing.price; }
+                if (existing.qty < fruit.stock) {
+                    existing.qty++;
+                    existing.subtotal = Math.round(existing.qty * existing.price * 100) / 100;
+                } else {
+                    alert(`Maximum stock available: ${fruit.stock} ${fruit.unit}`);
+                }
             } else {
-                this.cart.push({ ...fruit, qty: 1, subtotal: fruit.price });
+                this.cart.push({ 
+                    ...fruit, 
+                    qty: 1, 
+                    subtotal: fruit.price 
+                });
             }
         },
+
         removeFromCart(idx) {
             this.cart.splice(idx, 1);
         },
+
         increaseQty(idx) {
             const item = this.cart[idx];
             const fruit = this.fruits.find(f => f.id === item.id);
-            if (item.qty < fruit.stock) { item.qty++; item.subtotal = item.qty * item.price; }
+            const newQty = Math.round((item.qty + 0.5) * 100) / 100;
+            
+            if (newQty <= fruit.stock) {
+                item.qty = newQty;
+                item.subtotal = Math.round(item.qty * item.price * 100) / 100;
+            } else {
+                alert(`Maximum stock available: ${fruit.stock} ${fruit.unit}`);
+            }
         },
+
         decreaseQty(idx) {
-            if (this.cart[idx].qty > 1) {
-                this.cart[idx].qty--;
-                this.cart[idx].subtotal = this.cart[idx].qty * this.cart[idx].price;
+            const item = this.cart[idx];
+            if (item.qty > 0.5) {
+                item.qty = Math.round((item.qty - 0.5) * 100) / 100;
+                item.subtotal = Math.round(item.qty * item.price * 100) / 100;
             } else {
                 this.removeFromCart(idx);
             }
         },
+
+        updateQty(idx, value) {
+            const item = this.cart[idx];
+            const fruit = this.fruits.find(f => f.id === item.id);
+            let qty = parseFloat(value) || 0;
+            
+            // Round to 2 decimal places
+            qty = Math.round(qty * 100) / 100;
+            
+            if (qty <= 0) {
+                qty = 0.01; // Minimum quantity
+            }
+            
+            if (qty > fruit.stock) {
+                qty = fruit.stock;
+                alert(`Maximum stock available: ${fruit.stock} ${fruit.unit}`);
+            }
+            
+            item.qty = qty;
+            item.subtotal = Math.round(qty * item.price * 100) / 100;
+        },
+
+        validateQty(idx) {
+            const item = this.cart[idx];
+            
+            if (!item.qty || item.qty <= 0) {
+                if (confirm('Remove this item from cart?')) {
+                    this.removeFromCart(idx);
+                } else {
+                    item.qty = 1;
+                    item.subtotal = Math.round(item.qty * item.price * 100) / 100;
+                }
+            }
+        },
+
         clearCart() {
             if (this.cart.length === 0) return;
             if (confirm('Clear all items from cart?')) {
@@ -978,25 +1119,82 @@ function posApp() {
                 this.customerName = '';
             }
         },
+
         openFruitModal(fruit) {
             this.selectedFruit = fruit;
             this.fruitModal = true;
         },
+
         applyDiscount() {
             this.discountModal = true;
         },
-        completeSale() {
-            if (this.cart.length === 0) return;
-            this.completedOrder = {
-                receiptNo: String(this.orderNumber).padStart(6, '0'),
-                customer: this.customerName || '',
-                items: this.cart.reduce((s, i) => s + i.qty, 0),
-                total: this.total,
-                method: this.paymentMethods.find(p => p.key === this.paymentMethod)?.label || 'Cash',
-                change: this.change > 0 ? this.change : 0,
-            };
-            this.successModal = true;
+
+        async completeSale() {
+            if (this.cart.length === 0) {
+                alert('Cart is empty!');
+                return;
+            }
+
+            // Validate cash payment
+            if (this.paymentMethod === 'cash' && this.cashReceived > 0 && this.cashReceived < this.total) {
+                alert('Insufficient cash received!');
+                return;
+            }
+
+            this.loading = true;
+            try {
+                // Prepare sale data
+                const saleData = {
+                    items: this.cart.map(item => ({
+                        product_id: item.id,
+                        batch_id: item.batch_id,
+                        quantity: item.qty,
+                        price: item.price
+                    })),
+                    payment_method: this.paymentMethod,
+                    discount_amount: this.discountAmt,
+                    notes: this.customerName ? `Customer: ${this.customerName}` : null
+                };
+
+                // Submit sale to backend
+                const response = await fetch('/api/pos/sale', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify(saleData)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.message || 'Failed to complete sale');
+                }
+
+                // Show success modal
+                this.completedOrder = {
+                    receiptNo: result.data.transaction_code,
+                    customer: this.customerName || 'Walk-in Customer',
+                    items: this.cart.reduce((s, i) => s + i.qty, 0),
+                    total: result.data.total_amount,
+                    method: this.paymentMethods.find(p => p.key === this.paymentMethod)?.label || 'Cash',
+                    change: this.change > 0 ? this.change : 0,
+                };
+                
+                this.successModal = true;
+
+                // Reload products to update stock
+                await this.loadProducts();
+
+            } catch (err) {
+                console.error('Error completing sale:', err);
+                alert('Failed to complete sale: ' + err.message);
+            } finally {
+                this.loading = false;
+            }
         },
+
         newTransaction() {
             this.successModal = false;
             this.cart = [];
@@ -1004,21 +1202,45 @@ function posApp() {
             this.cashReceived = 0;
             this.customerName = '';
             this.paymentMethod = 'cash';
-            this.orderNumber++;
+            this.orderNumber = Date.now();
         },
-        suspendSale() { alert('Sale suspended. Order #' + this.orderNumber + ' saved.'); },
+
+        suspendSale() {
+            if (this.cart.length === 0) {
+                alert('Cart is empty!');
+                return;
+            }
+            alert('Sale suspended. Order #' + this.orderNumber + ' saved (feature coming soon).');
+        },
+
         voidTransaction() {
-            if (confirm('Void this transaction?')) { this.cart = []; this.discount = 0; this.cashReceived = 0; }
+            if (this.cart.length === 0) return;
+            if (confirm('Void this transaction? All items will be removed from cart.')) {
+                this.cart = [];
+                this.discount = 0;
+                this.cashReceived = 0;
+                this.customerName = '';
+            }
         },
+
         priceCheck() {
-            const name = prompt('Enter fruit name to check price:');
+            const name = prompt('Enter product name to check price:');
             if (!name) return;
             const fruit = this.fruits.find(f => f.name.toLowerCase().includes(name.toLowerCase()));
-            if (fruit) { alert(fruit.name + ' — ' + fruit.priceLabel + ' (Stock: ' + fruit.stock + ' ' + (fruit.unit||'') + ')'); }
-            else { alert('Fruit not found.'); }
+            if (fruit) {
+                alert(fruit.name + ' — ' + fruit.priceLabel + '\nStock: ' + fruit.stock + ' ' + fruit.unit);
+            } else {
+                alert('Product not found.');
+            }
         },
-        printReceipt() { alert('Sending to printer… Receipt #RCP-' + this.completedOrder.receiptNo); },
-        downloadReceipt() { alert('Receipt downloaded as PDF — Receipt #RCP-' + this.completedOrder.receiptNo); },
+
+        printReceipt() {
+            alert('Sending to printer… Receipt ' + this.completedOrder.receiptNo);
+        },
+
+        downloadReceipt() {
+            alert('Receipt downloaded as PDF — ' + this.completedOrder.receiptNo);
+        },
     };
 }
 </script>

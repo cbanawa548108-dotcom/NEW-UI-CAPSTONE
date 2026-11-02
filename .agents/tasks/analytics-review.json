@@ -1,0 +1,15 @@
+{
+  "verdict": "CHANGES_REQUESTED",
+  "findings": [
+    "KPI date range mismatch — getKPIs calculates 'last month' revenue (1 month ago) vs 'previous month' (2 months ago) instead of last 30 days vs prior 30 days. Change to Carbon::now()->subDays(30) and subDays(60) for consistent rolling windows.",
+    "Broken waste reduction SQL — Lines 115-124 embed a raw subquery with manual setBindings that doesn't execute in Laravel. Rewrite using a separate subquery or calculate in PHP after fetching monthly grouped data.",
+    "Weekly sales grouping mismatch — Query uses YEARWEEK(created_at, 1) but matching loop uses $date->format('oW'). These formats are incompatible. Use consistent format or parse YEARWEEK result with Carbon::createFromFormat.",
+    "Cumulative revenue date mutation — Line 430 calls $today->endOfDay() in whereBetween, which mutates $today, then line 432 uses the mutated $today in diffInDays($startOfMonth), producing wrong day count. Move diffInDays calculation before the query or use $today->copy()->endOfDay().",
+    "Hardcoded frontend growth badges — Lines with '↑ 11.2%', '↑ 23.4%', '↑ 1.2%' are static. Bind to kpis.volume_change_pct, kpis.waste_change_pct, kpis.forecast_change_pct (add these fields to getKPIs response).",
+    "COGS calculation ignores null batches silently — Lines 48-53 use $item->inventoryBatch?->price_per_unit ?? 0, which means items with no batch relation contribute 0 COGS. This silently undercounts COGS. Filter out nulls with ->filter() before summing, or log a warning.",
+    "getSalesByFruit returns unused amount field — Method returns amount field that frontend doesn't use. Remove it or add it to the legend display.",
+    "Empty data messages never show — Frontend has no x-show conditions for 'No data available' when API returns empty arrays. Charts will render blank. Add conditional messaging in blade for each chart section.",
+    "Stacked sales assumes 6 months of data — If a new product only has 2 months of data, the array still has 6 elements (with leading zeros). Document this behavior or add a data completeness note in the UI."
+  ],
+  "reviewDoc": "c:\\Users\\christian\\NEW-UI-CAPSTONE\\.agents\\tasks\\2025-01-03-171045-analytics-review.md"
+}

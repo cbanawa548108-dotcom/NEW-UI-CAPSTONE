@@ -28,6 +28,23 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'openweather' => [
+        'key' => env('OPENWEATHER_API_KEY'),
+        'city' => env('OPENWEATHER_CITY', 'Davao City'),
+        'lat' => env('OPENWEATHER_LAT', 7.0731),
+        'lon' => env('OPENWEATHER_LON', 125.6128),
+        'timezone' => env('OPENWEATHER_TIMEZONE', 'Asia/Manila'),
+        // Past weather for training: OpenWeather One Call 3.0 "day_summary" needs a
+        // One Call subscription. When it is unavailable, fall back to the free
+        // Open-Meteo archive (set to "none" to disable the fallback).
+        'history_fallback' => env('OPENWEATHER_HISTORY_FALLBACK', 'open-meteo'),
+    ],
+
+    'ml' => [
+        'python' => env('ML_PYTHON', 'python'),
+        'timeout' => env('ML_TIMEOUT', 600),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

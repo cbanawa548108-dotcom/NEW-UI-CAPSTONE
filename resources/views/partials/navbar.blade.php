@@ -92,7 +92,7 @@
                     $notifs = [
                         ['bg-red-100 text-red-600',   'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',   'Critical',         'Pomelo stock critically low — only 8 kg remaining.',     '2 min ago',  'badge-red'],
                         ['bg-amber-100 text-amber-600','M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',   'Spoilage Alert',   'Durian batch DUR-112 has 78% spoilage risk.',             '15 min ago', 'badge-orange'],
-                        ['bg-violet-100 text-violet-600','M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'AI Forecast Ready', 'New 7-day demand forecast is available.',                '1 hr ago',   'badge-violet'],
+                        ['bg-violet-100 text-violet-600','M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'Sales Forecast Ready', 'New 7-day demand forecast is available.',                '1 hr ago',   'badge-violet'],
                         ['bg-green-100 text-green-600','M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',                                                                         'Restock Complete',  'Mango batch MNG-003 (200kg) received.',                  '2 hrs ago',  'badge-green'],
                         ['bg-blue-100 text-blue-600',  'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', 'Sales Milestone', "Today's sales reached ₱18,000 target.",                 '3 hrs ago',  'badge-blue'],
                     ];
@@ -132,7 +132,7 @@
                     class="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-2xl hover:bg-[#F5F3FF] transition-all active:scale-95 group">
                 <div class="w-8 h-8 g-violet rounded-full flex items-center justify-center text-white text-xs font-black shadow-md shadow-violet-200">JD</div>
                 <div class="hidden lg:block text-left">
-                    <p class="text-[12.5px] font-semibold text-gray-900 leading-tight">Juan Dela Cruz</p>
+                    <p class="text-[12.5px] font-semibold text-gray-900 leading-tight">Criss Banawa</p>
                     <p class="text-[11px] text-violet-500 leading-tight">Owner</p>
                 </div>
                 <svg :class="profile ? 'rotate-180' : ''"
@@ -156,7 +156,7 @@
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 g-violet rounded-2xl flex items-center justify-center text-white font-black text-sm shadow-lg shadow-violet-200">JD</div>
                         <div>
-                            <p class="font-bold text-gray-900 text-sm" style="font-family:Poppins,sans-serif">Juan Dela Cruz</p>
+                            <p class="font-bold text-gray-900 text-sm" style="font-family:Poppins,sans-serif">Criss Banawa</p>
                             <p class="text-[11.5px] text-gray-500">juan@FreshTrack.ph</p>
                             <div class="flex items-center gap-1.5 mt-1">
                                 <svg class="w-3 h-3 text-violet-600" fill="currentColor" viewBox="0 0 20 20">

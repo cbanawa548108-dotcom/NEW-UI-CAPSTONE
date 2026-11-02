@@ -6,7 +6,7 @@ $map = [
     'inventory'        => [['Dashboard','dashboard'],['Inventory',null]],
     'forecast'         => [['Dashboard','dashboard'],['AI Sales Forecast',null]],
     'spoilage'         => [['Dashboard','dashboard'],['Spoilage Prediction',null]],
-    'scanner'          => [['Dashboard','dashboard'],['Image Processing',null]],
+
     'decision-support' => [['Dashboard','dashboard'],['Decision Support',null]],
     'reports'          => [['Dashboard','dashboard'],['Reports',null]],
     'analytics'        => [['Dashboard','dashboard'],['Analytics',null]],
